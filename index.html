@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Java for Everyone ☕ — Learn at Your Age!</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Bubblegum+Sans&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --orange:#F77F00;--orange-light:#FFD166;--orange-dark:#c45e00;
+  --blue:#118AB2;--blue-light:#e8f6fb;--blue-dark:#0a5f7a;
+  --green:#06D6A0;--green-dark:#047a5c;--green-light:#e6fff8;
+  --red:#EF476F;--red-light:#fde8ed;
+  --purple:#7B2FBE;--purple-light:#f0e6ff;
+  --yellow:#FFD166;--yellow-dark:#b8930a;
+  --pink:#FF6B9D;--pink-light:#ffe8f2;
+  --ink:#1a1a2e;--ink2:#2d2d44;--ink3:#555570;
+  --cream:#FFFBF2;--white:#ffffff;
+  --radius:16px;
+  --font-body:'Nunito',sans-serif;
+  --font-display:'Fredoka One',cursive;
+  --font-kids:'Bubblegum Sans',cursive;
+  --font-code:'Source Code Pro',monospace;
+}
+html{scroll-behavior:smooth}
+body{background:var(--cream);font-family:var(--font-body);color:var(--ink);line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:8px}
+::-webkit-scrollbar-track{background:#f0ede4}
+::-webkit-scrollbar-thumb{background:var(--orange);border-radius:4px}
+button{cursor:pointer;font-family:var(--font-body)}
+code{font-family:var(--font-code);background:#f0ede4;padding:2px 6px;border-radius:4px;font-size:0.88em}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px;box-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.nav-logo{font-family:var(--font-display);font-size:20px;color:var(--orange-light);letter-spacing:1px}
+.nav-xp{font-family:var(--font-display);font-size:14px;color:var(--orange-light);background:rgba(255,255,255,0.08);padding:4px 12px;border-radius:20px}
+#progress-wrap{background:var(--ink2);height:5px}
+#progress-bar{height:100%;background:linear-gradient(90deg,var(--orange),var(--orange-light));width:0%;transition:width 0.7s ease}
+
+/* HERO */
+.hero{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 24px 40px;background:var(--ink);position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(247,127,0,0.15) 1px,transparent 1px);background-size:34px 34px;pointer-events:none}
+.hero-title{font-family:var(--font-display);font-size:clamp(44px,8vw,86px);color:#fff;line-height:1;letter-spacing:2px;animation:fadeDown 0.6s ease both}
+.hero-title span{color:var(--orange)}
+.hero-sub{font-size:clamp(15px,2.5vw,20px);color:#ccd;max-width:540px;margin:16px auto 0;font-weight:600;animation:fadeDown 0.7s 0.1s ease both}
+.hero-cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center;animation:fadeDown 0.7s 0.2s ease both}
+.btn-main{background:var(--orange);color:#fff;border:none;border-radius:50px;padding:15px 34px;font-size:16px;font-weight:800;box-shadow:0 4px 20px rgba(247,127,0,0.4);transition:all 0.2s}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(247,127,0,0.5)}
+.btn-ghost{background:transparent;color:#dde;border:2px solid rgba(255,255,255,0.25);border-radius:50px;padding:14px 28px;font-size:16px;font-weight:700;transition:all 0.2s}
+.btn-ghost:hover{border-color:var(--orange-light);color:var(--orange-light)}
+
+/* AGE PICKER */
+#age-pick{background:var(--white);padding:70px 0}
+.sec-inner{max-width:1100px;margin:0 auto;padding:0 24px}
+.sec-tag{display:inline-block;background:var(--orange);color:#fff;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:4px 14px;border-radius:20px;margin-bottom:12px}
+.sec-title{font-family:var(--font-display);font-size:clamp(28px,5vw,44px);color:var(--ink);line-height:1.1;margin-bottom:8px}
+.sec-sub{font-size:15px;color:var(--ink3);max-width:540px;font-weight:600}
+
+.age-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin-top:32px}
+.age-card{background:var(--cream);border:2.5px solid #e0ddd6;border-radius:var(--radius);padding:26px 18px;cursor:pointer;transition:all 0.22s;text-align:center;position:relative}
+.age-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,0.12);border-color:var(--orange)}
+.age-card.selected{border-color:var(--orange);box-shadow:0 0 0 4px rgba(247,127,0,0.18),0 8px 24px rgba(0,0,0,0.1)}
+.age-card .ae{font-size:50px;margin-bottom:10px;display:block}
+.age-card .al{font-family:var(--font-display);font-size:18px;color:var(--ink);margin-bottom:3px}
+.age-card .ad{font-size:12px;color:var(--ink3);font-weight:700}
+.age-card .atick{position:absolute;top:10px;right:10px;background:var(--orange);color:#fff;font-size:9px;font-weight:800;padding:3px 8px;border-radius:10px;letter-spacing:0.5px;opacity:0;transition:opacity 0.2s}
+.age-card.selected .atick{opacity:1}
+
+/* PERSONA BANNER */
+#persona-banner{display:none;padding:20px 24px;text-align:center;transition:all 0.4s}
+.pb-inner{max-width:760px;margin:0 auto;border-radius:var(--radius);padding:22px 28px;border:3px solid}
+.pb-emoji{font-size:42px;margin-bottom:8px}
+.pb-title{font-family:var(--font-display);font-size:24px;margin-bottom:6px}
+.pb-desc{font-size:14px;font-weight:600;line-height:1.6;opacity:0.85}
+
+/* LESSONS */
+#lessons{background:var(--cream);padding:60px 0 80px}
+.lessons-inner{max-width:1100px;margin:0 auto;padding:0 24px}
+.ch-nav{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:36px}
+.ch-btn{background:var(--white);border:2px solid #e0ddd6;border-radius:30px;padding:8px 16px;font-size:13px;font-weight:700;color:var(--ink3);transition:all 0.18s;white-space:nowrap}
+.ch-btn:hover{border-color:var(--orange);color:var(--orange)}
+.ch-btn.active{background:var(--orange);border-color:var(--orange);color:#fff}
+.ch-btn.done{border-color:var(--green-dark);color:var(--green-dark);background:var(--green-light)}
+.ch-btn.done.active{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* LESSON PANELS */
+.lesson{display:none}
+.lesson.active{display:block;animation:fadeIn 0.35s ease}
+
+/* AGE CONTENT BLOCKS */
+.age-block{display:none}
+.age-block.visible{display:block;animation:fadeIn 0.3s ease}
+
+/* COMIC STRIP */
+.strip{display:flex;flex-direction:column;gap:3px;margin-bottom:28px}
+.row{display:grid;gap:3px;background:#1a1a2e}
+.r1{grid-template-columns:1fr}
+.r2{grid-template-columns:1fr 1fr}
+.r3{grid-template-columns:1fr 1fr 1fr}
+.rw{grid-template-columns:2fr 1fr}
+.rrw{grid-template-columns:1fr 2fr}
+@media(max-width:620px){.r2,.r3,.rw,.rrw{grid-template-columns:1fr}}
+
+.panel{background:#fffef5;padding:20px;min-height:150px;position:relative;display:flex;flex-direction:column;gap:10px}
+.panel.p-dark{background:#1a1a2e}
+.panel.p-orange{background:#fff8ee}
+.panel.p-blue{background:#eaf5fb}
+.panel.p-green{background:#eafff6}
+.panel.p-pink{background:#ffe8f4}
+.panel.p-yellow{background:#fffbe0}
+.panel.p-code{background:#1e2030}
+.panel.p-hero{min-height:260px;align-items:center;justify-content:center;text-align:center}
+
+.plabel{display:inline-block;font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:10px;background:var(--ink);color:#fff;align-self:flex-start}
+.pl-orange{background:var(--orange)}.pl-blue{background:var(--blue)}.pl-green{background:var(--green-dark)}
+.pl-purple{background:var(--purple)}.pl-red{background:var(--red)}.pl-pink{background:var(--pink)}
+
+/* CHARACTERS */
+.char{display:flex;gap:10px;align-items:flex-end}
+.char.cr{flex-direction:row-reverse}
+.avatar{width:52px;height:52px;border-radius:50%;border:3px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;background:#fff;box-shadow:2px 2px 0 var(--ink)}
+.aw{display:flex;flex-direction:column;align-items:center;gap:2px}
+.an{font-size:9px;font-weight:800;color:var(--ink3);letter-spacing:1px;text-transform:uppercase}
+
+.bubble{background:#fff;border:2.5px solid var(--ink);border-radius:14px;padding:10px 14px;font-size:14px;line-height:1.55;color:var(--ink);box-shadow:3px 3px 0 var(--ink);flex:1}
+.bubble strong{color:var(--orange)}
+.bubble.bshout{border-color:var(--orange);box-shadow:3px 3px 0 var(--orange);background:#fff8ee;font-family:var(--font-display);font-size:19px;letter-spacing:1px;color:var(--orange)}
+.bubble.binfo{background:var(--blue-light);border-color:var(--blue);box-shadow:3px 3px 0 var(--blue);font-size:13px}
+.bubble.bdark{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.25);color:#eee;box-shadow:3px 3px 0 rgba(255,255,255,0.1)}
+.bubble.bkids{font-family:var(--font-kids);font-size:15px;border-color:var(--pink);box-shadow:3px 3px 0 var(--pink);background:var(--pink-light)}
+
+.sfx{font-family:var(--font-display);font-size:34px;color:var(--orange);letter-spacing:2px;display:inline-block;transform:rotate(-6deg);line-height:1}
+
+/* CODE */
+.codeblock{background:#1e2030;border-radius:10px;padding:14px 16px;font-family:var(--font-code);font-size:12.5px;line-height:1.75;border:2px solid #333;overflow-x:auto;white-space:pre}
+.codeblock.light{background:#f8f8f5;border-color:#ddd;color:#333}
+.kw{color:#c678dd}.str{color:#98c379}.num{color:#d19a66}.cmt{color:#6b737e;font-style:italic}
+.cls{color:#e5c07b}.fn{color:#61afef}.op{color:#56b6c2}.vr{color:#e06c75}.lit{color:#abb2bf}
+
+/* CONCEPT BOX */
+.cbox{border:2.5px solid var(--orange);border-radius:10px;padding:11px 13px;background:#fff8ee;font-size:13px;line-height:1.55}
+.cbox .ct{font-family:var(--font-display);font-size:15px;color:var(--orange);margin-bottom:3px}
+.cbox.cblue{border-color:var(--blue);background:var(--blue-light)}.cbox.cblue .ct{color:var(--blue)}
+.cbox.cgreen{border-color:var(--green-dark);background:var(--green-light)}.cbox.cgreen .ct{color:var(--green-dark)}
+.cbox.cpurple{border-color:var(--purple);background:var(--purple-light)}.cbox.cpurple .ct{color:var(--purple)}
+.cbox.cpink{border-color:var(--pink);background:var(--pink-light)}.cbox.cpink .ct{color:var(--pink)}
+.cbox.cyellow{border-color:var(--yellow-dark);background:#fffbe0}.cbox.cyellow .ct{color:var(--yellow-dark)}
+
+/* DIAGRAM */
+.diag{display:flex;flex-direction:column;align-items:center;gap:7px}
+.dbox{padding:8px 18px;border-radius:8px;font-weight:800;font-size:13px;border:2px solid;text-align:center;min-width:120px}
+.darr{font-size:20px;color:#aaa;line-height:1}
+.drow{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:center}
+
+/* TABLE */
+.dtable{width:100%;border-collapse:collapse;font-size:13px}
+.dtable th{background:var(--ink);color:#fff;padding:8px 10px;font-weight:800;text-align:left;font-size:12px;letter-spacing:0.5px}
+.dtable td{padding:7px 10px;border-bottom:1px solid #e8e5de}
+.dtable tr:nth-child(even) td{background:#f7f5ef}
+.pill{display:inline-block;padding:2px 7px;border-radius:10px;font-size:11px;font-weight:700}
+.po{background:#fff0d9;color:var(--orange-dark)}.pb{background:var(--blue-light);color:var(--blue-dark)}.pg{background:var(--green-light);color:var(--green-dark)}
+
+/* OOP PILLARS */
+.pillars{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pillar{border:2.5px solid;border-radius:10px;padding:11px 13px;font-size:12px;line-height:1.5}
+.pillar .pt{font-family:var(--font-display);font-size:15px;margin-bottom:3px}
+.p-enc{border-color:var(--purple);background:var(--purple-light);color:#4a1c8a}
+.p-inh{border-color:var(--green-dark);background:var(--green-light);color:#04402f}
+.p-pol{border-color:var(--red);background:var(--red-light);color:#8a1030}
+.p-abs{border-color:var(--blue);background:var(--blue-light);color:var(--blue-dark)}
+@media(max-width:460px){.pillars{grid-template-columns:1fr}}
+
+/* TERMINAL */
+.terminal{background:#1a0000;border:2px solid var(--red);border-radius:10px;padding:12px 14px;font-family:var(--font-code);font-size:11.5px;color:#ff9898;line-height:1.7}
+
+/* ROADMAP */
+.roadmap{display:flex;flex-direction:column;gap:2px}
+.rs{display:flex;gap:11px;align-items:flex-start;padding:7px 0}
+.rdot{width:22px;height:22px;border-radius:50%;border:2.5px solid;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px;font-weight:800}
+.rtext{font-size:13px;line-height:1.5}
+.rtext strong{display:block;font-family:var(--font-display);font-size:14px;letter-spacing:0.3px}
+
+/* MEMORY VIZ */
+.mem{display:flex;gap:4px;flex-wrap:wrap;margin:6px 0}
+.mc{flex:1;min-width:60px;border:2px solid var(--ink);border-radius:6px;padding:7px 5px;text-align:center}
+.mc .ml{font-size:10px;color:#888;font-weight:700}.mc .mv{font-size:15px;font-weight:800;color:var(--orange)}
+
+/* QUIZ */
+.quiz{background:var(--white);border-radius:var(--radius);padding:26px;box-shadow:0 4px 20px rgba(0,0,0,0.08);margin-top:6px}
+.quiz-title{font-family:var(--font-display);font-size:21px;color:var(--ink);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.quiz-xp{font-size:12px;font-weight:800;color:var(--orange);background:#fff0d9;padding:3px 10px;border-radius:20px}
+.quiz-q{font-size:15px;font-weight:700;color:var(--ink);margin:14px 0 12px;line-height:1.5}
+.quiz-opts{display:flex;flex-direction:column;gap:9px}
+.qopt{background:var(--cream);border:2px solid #ddd;border-radius:10px;padding:11px 15px;font-size:14px;font-weight:700;text-align:left;color:var(--ink);transition:all 0.17s;box-shadow:2px 2px 0 #ddd}
+.qopt:hover{border-color:var(--orange);box-shadow:2px 2px 0 var(--orange);transform:translateX(2px)}
+.qopt.correct{background:#e8ffe8;border-color:var(--green-dark);box-shadow:2px 2px 0 var(--green-dark);color:#02402f}
+.qopt.wrong{background:var(--red-light);border-color:var(--red);box-shadow:2px 2px 0 var(--red);color:#7a0020}
+.qfb{margin-top:12px;padding:11px 15px;border-radius:10px;font-size:14px;font-weight:700;display:none;line-height:1.5}
+.qfb.show{display:block}
+.qfb.ok{background:var(--green-light);border:2px solid var(--green-dark);color:#025040}
+.qfb.bad{background:var(--red-light);border:2px solid var(--red);color:#7a0020}
+.qnext{margin-top:14px;background:var(--orange);color:#fff;border:none;border-radius:50px;padding:11px 26px;font-size:15px;font-weight:800;box-shadow:0 4px 14px rgba(247,127,0,0.35);transition:all 0.18s;display:none}
+.qnext:hover{transform:translateY(-2px)}
+.qnext.show{display:inline-block}
+
+/* KIDS SPECIAL STYLES */
+.kids-fun-box{border:3px dashed var(--pink);border-radius:16px;padding:14px;background:var(--pink-light);font-family:var(--font-kids);font-size:15px;text-align:center;color:#7a1040}
+.kids-step{display:flex;align-items:flex-start;gap:12px;padding:10px 0}
+.kids-num{width:32px;height:32px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--font-display);font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* COMPLETION */
+#completion{background:var(--ink);padding:80px 24px;text-align:center;display:none}
+.comp-inner{max-width:640px;margin:0 auto}
+.comp-title{font-family:var(--font-display);font-size:clamp(38px,7vw,68px);color:var(--orange);letter-spacing:2px}
+.comp-sub{color:#ccd;font-size:16px;font-weight:600;margin:14px 0 28px;line-height:1.6}
+.cert{background:rgba(255,255,255,0.06);border:2px solid rgba(247,127,0,0.4);border-radius:var(--radius);padding:26px;margin:20px auto;max-width:460px}
+.cert .cl{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--orange-light);text-transform:uppercase;margin-bottom:6px}
+.cert .cn{font-family:var(--font-display);font-size:26px;color:#fff;margin-bottom:4px}
+.cert .ct{font-size:13px;color:#aab}
+.ns-btns{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:28px}
+.ns-btn{background:transparent;border:2px solid rgba(255,255,255,0.18);color:#ccd;border-radius:50px;padding:11px 22px;font-size:14px;font-weight:700;transition:all 0.2s}
+.ns-btn:hover{border-color:var(--orange-light);color:var(--orange-light)}
+
+/* TIPS */
+#tips{background:var(--white);padding:60px 0;border-top:3px solid #f0ede4}
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px;margin-top:28px}
+.tip{background:var(--cream);border-radius:var(--radius);padding:22px;border:2px solid #e8e5de;transition:all 0.2s}
+.tip:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,0.1);border-color:var(--orange-light)}
+.tip-icon{font-size:34px;margin-bottom:10px;display:block}
+.tip-title{font-family:var(--font-display);font-size:17px;color:var(--ink);margin-bottom:5px}
+.tip-text{font-size:13px;color:var(--ink3);line-height:1.6;font-weight:600}
+
+footer{background:var(--ink2);padding:28px 24px;text-align:center}
+footer p{color:#667;font-size:13px;font-weight:600}
+footer span{color:var(--orange-light)}
+
+/* NO AGE PICKED STATE */
+#no-age-msg{text-align:center;padding:48px 24px;background:var(--white);border-radius:var(--radius);border:3px dashed #e0ddd6}
+#no-age-msg .nm-emoji{font-size:64px;display:block;margin-bottom:16px}
+#no-age-msg .nm-title{font-family:var(--font-display);font-size:26px;color:var(--ink);margin-bottom:8px}
+#no-age-msg .nm-sub{font-size:15px;color:var(--ink3);font-weight:600}
+#no-age-msg .nm-btn{display:inline-block;margin-top:20px;background:var(--orange);color:#fff;border:none;border-radius:50px;padding:12px 28px;font-size:15px;font-weight:800;cursor:pointer;box-shadow:0 4px 14px rgba(247,127,0,0.35)}
+
+/* FLOAT COFFEE */
+.float-coffee{position:fixed;bottom:22px;right:22px;background:var(--orange);border:none;border-radius:50%;width:52px;height:52px;font-size:24px;box-shadow:0 4px 20px rgba(247,127,0,0.5);z-index:99;transition:all 0.2s;animation:pulse 3s infinite}
+.float-coffee:hover{transform:scale(1.1)}
+
+/* ANIMATIONS */
+@keyframes fadeDown{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity 0.5s,transform 0.5s}
+.reveal.visible{opacity:1;transform:none}
+
+/* MEMORY CARD */
+.mem-card{border:2.5px solid var(--orange);border-radius:10px;padding:10px 14px;background:#fff8ee;display:inline-flex;flex-direction:column;align-items:center;min-width:80px;margin:4px}
+.mem-card .mc-label{font-size:10px;font-weight:800;color:var(--orange);letter-spacing:1px;text-transform:uppercase}
+.mem-card .mc-val{font-size:20px;font-weight:800;color:var(--ink);font-family:var(--font-code)}
+
+/* STEP BOX */
+.stepbox{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.step{display:flex;gap:10px;align-items:flex-start}
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--orange);color:#fff;font-family:var(--font-display);font-size:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.step-text{font-size:13px;line-height:1.5;font-weight:600}
+.step-text strong{display:block;font-size:14px;font-weight:800;color:var(--ink)}
+</style>
+</head>
+<body>
+
+<button class="float-coffee" onclick="document.getElementById('tips').scrollIntoView({behavior:'smooth'})" title="Tips">☕</button>
+
+<nav>
+  <div class="nav-logo">☕ Java for Everyone</div>
+  <div class="nav-xp" id="navXP">0 XP ⚡</div>
+</nav>
+<div id="progress-wrap"><div id="progress-bar"></div></div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div style="font-family:var(--font-display);font-size:14px;color:var(--orange);letter-spacing:2px;margin-bottom:16px;animation:fadeDown 0.5s ease both">🌍 FOR EVERY AGE · ZERO EXPERIENCE NEEDED</div>
+  <h1 class="hero-title">Learn <span>Java</span><br>Your Way</h1>
+  <p class="hero-sub">Pick your age — and the entire course changes to match how YOU think, talk, and learn. No jargon. No confusion. Just Java, made for you.</p>
+  <div class="hero-cta">
+    <button class="btn-main" onclick="document.getElementById('age-pick').scrollIntoView({behavior:'smooth'})">Choose My Age →</button>
+    <button class="btn-ghost" onclick="document.getElementById('lessons').scrollIntoView({behavior:'smooth'})">See Lessons</button>
+  </div>
+</section>
+
+<!-- AGE PICKER -->
+<section id="age-pick">
+  <div class="sec-inner">
+    <span class="sec-tag">Step 1 — Personalize</span>
+    <h2 class="sec-title">How old are you? 🎂</h2>
+    <p class="sec-sub">The explanations, words, examples, and pictures will completely change based on your age. No two groups get the same lesson!</p>
+    <div class="age-grid">
+      <div class="age-card" onclick="pickAge('kids',this)">
+        <span class="ae">🦁</span>
+        <div class="al">Kids (6–9)</div>
+        <div class="ad">Super simple, fun animals & stories!</div>
+        <span class="atick">✓ YOU!</span>
+      </div>
+      <div class="age-card" onclick="pickAge('tweens',this)">
+        <span class="ae">🎮</span>
+        <div class="al">Tweens (10–13)</div>
+        <div class="ad">Games, challenges & comic adventures!</div>
+        <span class="atick">✓ YOU!</span>
+      </div>
+      <div class="age-card" onclick="pickAge('teens',this)">
+        <span class="ae">⚡</span>
+        <div class="al">Teens (14–17)</div>
+        <div class="ad">Real code, real projects, real cool.</div>
+        <span class="atick">✓ YOU!</span>
+      </div>
+      <div class="age-card" onclick="pickAge('adults',this)">
+        <span class="ae">💼</span>
+        <div class="al">Adults (18–49)</div>
+        <div class="ad">Professional, career-focused & practical.</div>
+        <span class="atick">✓ YOU!</span>
+      </div>
+      <div class="age-card" onclick="pickAge('seniors',this)">
+        <span class="ae">🌿</span>
+        <div class="al">Seniors (50+)</div>
+        <div class="ad">Relaxed pace, everyday analogies, no rush.</div>
+        <span class="atick">✓ YOU!</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PERSONA BANNER -->
+<div id="persona-banner">
+  <div class="pb-inner" id="pb-inner">
+    <div class="pb-emoji" id="pb-emoji"></div>
+    <div class="pb-title" id="pb-title"></div>
+    <div class="pb-desc" id="pb-desc"></div>
+  </div>
+</div>
+
+<!-- LESSONS -->
+<section id="lessons">
+  <div class="lessons-inner">
+    <span class="sec-tag">Step 2 — Learn</span>
+    <h2 class="sec-title">Your Lessons 📖</h2>
+
+    <!-- NO AGE PICKED -->
+    <div id="no-age-msg">
+      <span class="nm-emoji">👆</span>
+      <div class="nm-title">Pick your age group first!</div>
+      <div class="nm-sub">The lessons below will completely change based on your age — with different words, examples, and explanations just for you.</div>
+      <button class="nm-btn" onclick="document.getElementById('age-pick').scrollIntoView({behavior:'smooth'})">Choose My Age ↑</button>
+    </div>
+
+    <!-- LESSON CONTENT (hidden until age picked) -->
+    <div id="lesson-content" style="display:none">
+      <div class="ch-nav" id="chNav">
+        <button class="ch-btn active" data-ch="0" onclick="switchCh(0)">☕ What is Java?</button>
+        <button class="ch-btn" data-ch="1" onclick="switchCh(1)">📦 Variables</button>
+        <button class="ch-btn" data-ch="2" onclick="switchCh(2)">🔢 Data Types</button>
+        <button class="ch-btn" data-ch="3" onclick="switchCh(3)">🔀 If/Else</button>
+        <button class="ch-btn" data-ch="4" onclick="switchCh(4)">🔁 Loops</button>
+        <button class="ch-btn" data-ch="5" onclick="switchCh(5)">🏛 OOP</button>
+        <button class="ch-btn" data-ch="6" onclick="switchCh(6)">💥 Errors</button>
+        <button class="ch-btn" data-ch="7" onclick="switchCh(7)">🗂 Collections</button>
+        <button class="ch-btn" data-ch="8" onclick="switchCh(8)">⚡ Pro Level</button>
+      </div>
+
+      <!-- =================== CHAPTER 0 =================== -->
+      <div class="lesson active" id="ch0">
+
+        <!-- KIDS -->
+        <div class="age-block" data-for="kids">
+          <div class="strip">
+            <div class="row r1">
+              <div class="panel p-pink p-hero">
+                <div style="font-family:var(--font-kids);font-size:46px;color:var(--pink);margin-bottom:10px">What is Java? ☕</div>
+                <div style="font-size:64px">🤖🦁💻</div>
+                <div class="kids-fun-box" style="margin-top:14px;max-width:420px">Java is like giving instructions to a SUPER SMART robot! The robot does EXACTLY what you tell it — every single time! 🎉</div>
+              </div>
+            </div>
+            <div class="row r2">
+              <div class="panel p-yellow">
+                <span class="plabel pl-pink">The Robot Idea 🤖</span>
+                <div class="char">
+                  <div class="aw"><div class="avatar" style="border-color:var(--pink)">🦁</div><div class="an">Leo</div></div>
+                  <div class="bubble bkids">Imagine you have a pet robot named <strong>Robo</strong>. Robo can do anything... but only if you tell it step by step!</div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+                  <div class="kids-step"><div class="kids-num">1</div><div style="font-family:var(--font-kids);font-size:14px">You WRITE instructions in Java 📝</div></div>
+                  <div class="kids-step"><div class="kids-num">2</div><div style="font-family:var(--font-kids);font-size:14px">The computer READS your instructions 👀</div></div>
+                  <div class="kids-step"><div class="kids-num">3</div><div style="font-family:var(--font-kids);font-size:14px">Robo DOES exactly what you said! 🎊</div></div>
+                </div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-pink">Your First Magic Spell! ✨</span>
+                <div class="bubble bdark" style="font-family:var(--font-kids);font-size:13px">This tells the computer to say "Hello!" — just like a spell! 🪄</div>
+                <div class="codeblock"><span class="kw">public class</span> <span class="cls">Hello</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+    <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Hello, World! 🎉"</span>);
+  }
+}</div>
+                <div style="font-family:var(--font-kids);font-size:13px;color:var(--green);margin-top:6px">✨ Magic output: Hello, World! 🎉</div>
+              </div>
+            </div>
+            <div class="row r1">
+              <div class="panel p-orange">
+                <span class="plabel pl-orange">Java is EVERYWHERE! 😮</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px">
+                  <div class="cbox cpink"><div class="ct">📱 Your Phone!</div>Android apps are made with Java. The games you play!</div>
+                  <div class="cbox cyellow"><div class="ct">🎮 Minecraft!</div>Yes, your favourite block game is written in Java!</div>
+                  <div class="cbox cblue"><div class="ct">🚀 Space!</div>NASA used Java for Mars missions. Real rockets!</div>
+                  <div class="cbox cgreen"><div class="ct">🛒 Shops!</div>When Mummy shops online, Java runs behind the scenes!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🦁 Leo's Question! <span class="quiz-xp">+100 XP ⭐</span></div>
+            <div class="quiz-q">What does Java help you do?</div>
+            <div class="quiz-opts" id="k0opts">
+              <button class="qopt" onclick="checkQ('k',0,'a','b')">A. Make yummy coffee ☕</button>
+              <button class="qopt" onclick="checkQ('k',0,'b','b')">B. Tell computers what to do — like giving a robot instructions! ✓</button>
+              <button class="qopt" onclick="checkQ('k',0,'c','b')">C. Draw pictures with crayons 🖍️</button>
+              <button class="qopt" onclick="checkQ('k',0,'d','b')">D. Play music automatically 🎵</button>
+            </div>
+            <div class="qfb" id="k0fb"></div>
+            <button class="qnext" id="k0next" onclick="switchCh(1)">Next Lesson: Variables 📦 →</button>
+          </div>
+        </div>
+
+        <!-- TWEENS -->
+        <div class="age-block" data-for="tweens">
+          <div class="strip">
+            <div class="row r1">
+              <div class="panel p-dark p-hero">
+                <div style="font-family:var(--font-display);font-size:46px;color:var(--orange);letter-spacing:3px">JAVA: THE GAME ENGINE 🎮</div>
+                <div style="color:#ccd;font-size:15px;margin-top:10px;max-width:480px;font-weight:600">Think of Java as the cheat code sheet for controlling computers. You write the rules — the computer plays by them!</div>
+                <div class="sfx" style="margin-top:16px;font-size:44px">LEVEL 1 START!</div>
+              </div>
+            </div>
+            <div class="row r2">
+              <div class="panel">
+                <span class="plabel pl-orange">The Gaming Analogy 🕹️</span>
+                <div class="char">
+                  <div class="aw"><div class="avatar">🎮</div><div class="an">Aryan</div></div>
+                  <div class="bubble">In Minecraft, you follow the game's rules. With Java, <strong>YOU make the rules!</strong> You're not just a player — you're the game designer!</div>
+                </div>
+                <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px">
+                  <div class="cbox cpink"><div class="ct">🎮 Java → Games</div>Minecraft is literally written in Java. Your next game could be too!</div>
+                  <div class="cbox cblue"><div class="ct">📱 Java → Apps</div>Android apps, from Instagram to games — Java powers them.</div>
+                </div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-orange">Mission 1: Say Hello</span>
+                <div class="bubble bdark" style="font-size:12px">Every Java mission starts like this. The <code style="color:var(--orange-light)">main</code> method is where your game begins!</div>
+                <div class="codeblock"><span class="cmt">// Mission Control activated!</span>
+<span class="kw">public class</span> <span class="cls">Mission1</span> {
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+    <span class="cmt">// Print a message</span>
+    <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Mission Start! 🚀"</span>);
+
+  }
+}
+<span class="cmt">// Output: Mission Start! 🚀</span></div>
+              </div>
+            </div>
+            <div class="row rw">
+              <div class="panel p-blue">
+                <span class="plabel pl-blue">How Java Runs — The Pipeline</span>
+                <div class="diag" style="margin-top:10px">
+                  <div class="dbox" style="background:#fff8ee;border-color:var(--orange);color:var(--orange-dark)">1. You write code (Hello.java)</div>
+                  <div class="darr">↓ <span style="font-size:11px">javac compiles</span></div>
+                  <div class="dbox" style="background:var(--blue-light);border-color:var(--blue);color:var(--blue-dark)">2. Becomes Bytecode (.class)</div>
+                  <div class="darr">↓ <span style="font-size:11px">JVM executes</span></div>
+                  <div class="dbox" style="background:var(--green-light);border-color:var(--green-dark);color:var(--green-dark)">3. Runs on ANY device! 🌍</div>
+                </div>
+              </div>
+              <div class="panel p-orange">
+                <span class="plabel pl-orange">Java Unlocked</span>
+                <div style="display:flex;flex-direction:column;gap:7px;margin-top:8px;font-size:13px;font-weight:700">
+                  <div>🎮 Minecraft — built in Java</div>
+                  <div>📱 3 billion Android devices run Java</div>
+                  <div>🚀 Used by NASA in real missions</div>
+                  <div>💰 Java devs earn ₹8–30 LPA in India</div>
+                  <div>🏆 Top 3 most used languages globally</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🎮 Quick Mission! <span class="quiz-xp">+100 XP</span></div>
+            <div class="quiz-q">What does JVM (Java Virtual Machine) do?</div>
+            <div class="quiz-opts" id="t0opts">
+              <button class="qopt" onclick="checkQ('t',0,'a','b')">A. Designs the Java logo</button>
+              <button class="qopt" onclick="checkQ('t',0,'b','b')">B. Runs Java bytecode on any device or operating system ✓</button>
+              <button class="qopt" onclick="checkQ('t',0,'c','b')">C. Writes code for you automatically</button>
+              <button class="qopt" onclick="checkQ('t',0,'d','b')">D. Connects to the internet</button>
+            </div>
+            <div class="qfb" id="t0fb"></div>
+            <button class="qnext" id="t0next" onclick="switchCh(1)">Next: Variables 📦 →</button>
+          </div>
+        </div>
+
+        <!-- TEENS -->
+        <div class="age-block" data-for="teens">
+          <div class="strip">
+            <div class="row r2">
+              <div class="panel">
+                <span class="plabel pl-orange">Chapter 1 — What is Java?</span>
+                <div class="char" style="margin-top:8px">
+                  <div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div>
+                  <div class="bubble">Java is a <strong>statically typed, object-oriented programming language</strong> created in 1995. It compiles to bytecode that runs on the JVM — meaning the same code works on any OS.</div>
+                </div>
+                <div style="margin-top:12px">
+                  <div class="cbox cblue"><div class="ct">🔑 Why Java?</div>Object-oriented design, strong community, massive job market (Android, Spring Boot, enterprise backend), and it teaches you clean coding habits that transfer to any language.</div>
+                </div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-green">Hello World — Explained</span>
+                <div class="codeblock"><span class="cmt">// public = accessible everywhere</span>
+<span class="cmt">// class = blueprint of code</span>
+<span class="kw">public class</span> <span class="cls">HelloWorld</span> {
+
+  <span class="cmt">// main = entry point. ALWAYS needed.</span>
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+    <span class="cmt">// println prints + new line</span>
+    <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Hello World"</span>);
+  }
+}</div>
+              </div>
+            </div>
+            <div class="row rw">
+              <div class="panel p-blue">
+                <span class="plabel pl-blue">Compilation Pipeline</span>
+                <div class="diag" style="margin-top:10px">
+                  <div class="dbox" style="background:#fff8ee;border-color:var(--orange);color:var(--orange-dark)">Source Code (HelloWorld.java)</div>
+                  <div class="darr">↓ javac (Java Compiler)</div>
+                  <div class="dbox" style="background:var(--blue-light);border-color:var(--blue);color:var(--blue-dark)">Bytecode (HelloWorld.class)</div>
+                  <div class="darr">↓ JVM interprets at runtime</div>
+                  <div class="dbox" style="background:var(--green-light);border-color:var(--green-dark);color:var(--green-dark)">Executes on Windows / Mac / Linux / Android</div>
+                </div>
+                <div class="bubble binfo" style="margin-top:10px">💡 This "write once, run anywhere" model is Java's biggest advantage over C/C++.</div>
+              </div>
+              <div class="panel p-orange">
+                <span class="plabel pl-orange">Java in the Real World</span>
+                <div style="font-size:13px;display:flex;flex-direction:column;gap:7px;margin-top:8px;font-weight:700">
+                  <div>📱 Android SDK — built on Java/Kotlin</div>
+                  <div>🏦 Goldman Sachs, JPMorgan — Java backends</div>
+                  <div>🛒 Flipkart, Amazon India — Spring Boot + Java</div>
+                  <div>🎮 Minecraft — entirely in Java</div>
+                  <div>💰 Java devs: ₹6–35 LPA in India</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div>
+            <div class="quiz-q">Java source code is compiled into _______ which is then run by the JVM.</div>
+            <div class="quiz-opts" id="n0opts">
+              <button class="qopt" onclick="checkQ('n',0,'a','c')">A. Machine code</button>
+              <button class="qopt" onclick="checkQ('n',0,'b','c')">B. HTML</button>
+              <button class="qopt" onclick="checkQ('n',0,'c','c')">C. Bytecode ✓</button>
+              <button class="qopt" onclick="checkQ('n',0,'d','c')">D. Assembly</button>
+            </div>
+            <div class="qfb" id="n0fb"></div>
+            <button class="qnext" id="n0next" onclick="switchCh(1)">Next: Variables 📦 →</button>
+          </div>
+        </div>
+
+        <!-- ADULTS -->
+        <div class="age-block" data-for="adults">
+          <div class="strip">
+            <div class="row r2">
+              <div class="panel">
+                <span class="plabel">What is Java?</span>
+                <div class="char" style="margin-top:8px">
+                  <div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div>
+                  <div class="bubble">Java is a <strong>platform-independent, object-oriented language</strong>. Code once, deploy anywhere via the JVM. It powers Android, enterprise backends (Spring Boot), financial systems, and big data platforms (Hadoop, Kafka).</div>
+                </div>
+                <div style="margin-top:10px">
+                  <div class="cbox cblue"><div class="ct">📈 Why Learn Java in 2025?</div>Consistent top-3 language globally. Largest enterprise adoption. Java developers remain among the highest-paid in India and worldwide. Spring Boot is the #1 backend framework for Indian IT companies.</div>
+                </div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-blue">Hello World — Annotated</span>
+                <div class="codeblock"><span class="cmt">// Class name must match filename</span>
+<span class="kw">public class</span> <span class="cls">HelloWorld</span> {
+
+  <span class="cmt">// JVM entry point. args = CLI params.</span>
+  <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+
+    <span class="cmt">// System.out = standard output stream</span>
+    <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Hello, World!"</span>);
+  }
+}</div>
+                <div class="bubble binfo" style="margin-top:8px;font-size:12px">Run: <code>javac HelloWorld.java</code> → <code>java HelloWorld</code></div>
+              </div>
+            </div>
+            <div class="row r1">
+              <div class="panel p-orange">
+                <span class="plabel pl-orange">Java Ecosystem at a Glance</span>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-top:10px">
+                  <div class="cbox"><div class="ct">🌱 Spring Boot</div>REST APIs, microservices, JPA — the dominant Java web framework</div>
+                  <div class="cbox cblue"><div class="ct">📱 Android</div>Java/Kotlin are the official Android languages — 3B+ devices</div>
+                  <div class="cbox cgreen"><div class="ct">☁️ Cloud Native</div>Kafka, Hadoop, Spark — Java underpins enterprise data infra</div>
+                  <div class="cbox cpurple"><div class="ct">🏦 BFSI</div>Banks (HDFC, SBI, ICICI) run core Java systems in production</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🧠 Check! <span class="quiz-xp">+100 XP</span></div>
+            <div class="quiz-q">What enables Java's "write once, run anywhere" capability?</div>
+            <div class="quiz-opts" id="a0opts">
+              <button class="qopt" onclick="checkQ('a',0,'a','c')">A. The Java compiler (javac)</button>
+              <button class="qopt" onclick="checkQ('a',0,'b','c')">B. The operating system</button>
+              <button class="qopt" onclick="checkQ('a',0,'c','c')">C. The Java Virtual Machine (JVM) ✓</button>
+              <button class="qopt" onclick="checkQ('a',0,'d','c')">D. The IDE (IntelliJ / Eclipse)</button>
+            </div>
+            <div class="qfb" id="a0fb"></div>
+            <button class="qnext" id="a0next" onclick="switchCh(1)">Next: Variables →</button>
+          </div>
+        </div>
+
+        <!-- SENIORS -->
+        <div class="age-block" data-for="seniors">
+          <div class="strip">
+            <div class="row r1">
+              <div class="panel p-blue p-hero">
+                <div style="font-family:var(--font-display);font-size:36px;color:var(--blue-dark);margin-bottom:10px">What is Java? A Gentle Introduction 🌿</div>
+                <div style="font-size:16px;color:var(--ink2);max-width:520px;font-weight:600;line-height:1.7">No rush. No jargon. Just a calm, step-by-step explanation. We will use everyday life comparisons that make perfect sense — because coding is not as hard as it sounds!</div>
+              </div>
+            </div>
+            <div class="row r2">
+              <div class="panel">
+                <span class="plabel pl-blue">The Recipe Comparison 👩‍🍳</span>
+                <div class="char">
+                  <div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div>
+                  <div class="bubble" style="font-size:15px;line-height:1.7">Think of Java like a <strong>recipe book</strong>. You write down steps for making a dish. The computer is the cook — it follows your recipe <em>exactly</em>, step by step, without skipping anything!</div>
+                </div>
+                <div style="margin-top:12px">
+                  <div class="cbox cgreen"><div class="ct">🍳 Your Recipe (Java Code)</div>Step 1: Boil water. Step 2: Add tea leaves. Step 3: Add sugar. Step 4: Serve hot.</div>
+                  <div class="cbox cblue" style="margin-top:8px"><div class="ct">🤖 The Cook (Computer)</div>Reads your steps and does them exactly as written. No guessing, no shortcuts.</div>
+                </div>
+              </div>
+              <div class="panel p-yellow">
+                <span class="plabel" style="background:var(--yellow-dark)">Why Java? Why Now?</span>
+                <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;font-size:14px;line-height:1.6;font-weight:600">
+                  <div>🧠 <strong>Keep your mind sharp.</strong> Learning a new skill at any age is wonderful for the brain.</div>
+                  <div>👧 <strong>Connect with grandchildren.</strong> They may already code — now you can talk their language!</div>
+                  <div>🌱 <strong>No age limit.</strong> Many people learn coding after 60 and create wonderful apps.</div>
+                  <div>🎯 <strong>Go at your own pace.</strong> There is no exam, no deadline — just discovery!</div>
+                </div>
+              </div>
+            </div>
+            <div class="row r1">
+              <div class="panel p-orange">
+                <span class="plabel pl-orange">Your Very First Program — In Plain English</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px">
+                  <div>
+                    <div style="font-size:13px;font-weight:700;color:var(--ink3);margin-bottom:8px">The Java Code:</div>
+                    <div class="codeblock" style="font-size:11.5px"><span class="kw">public class</span> <span class="cls">Hello</span> {
+  <span class="kw">void</span> <span class="fn">main</span>() {
+    <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(
+      <span class="str">"Hello, Friend!"</span>);
+  }
+}</div>
+                  </div>
+                  <div>
+                    <div style="font-size:13px;font-weight:700;color:var(--ink3);margin-bottom:8px">In Plain English:</div>
+                    <div class="stepbox">
+                      <div class="step"><div class="step-num">1</div><div class="step-text"><strong>class Hello</strong>Name of our programme — like a chapter title</div></div>
+                      <div class="step"><div class="step-num">2</div><div class="step-text"><strong>main()</strong>Where the computer starts reading — like page 1</div></div>
+                      <div class="step"><div class="step-num">3</div><div class="step-text"><strong>println</strong>Print this message on screen and go to next line</div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🌿 Gentle Check! <span class="quiz-xp">+100 XP</span></div>
+            <div class="quiz-q">Using the recipe analogy — what is Java?</div>
+            <div class="quiz-opts" id="s0opts">
+              <button class="qopt" onclick="checkQ('s',0,'a','b')">A. A type of drink made from coffee beans</button>
+              <button class="qopt" onclick="checkQ('s',0,'b','b')">B. A language for writing step-by-step instructions that a computer follows ✓</button>
+              <button class="qopt" onclick="checkQ('s',0,'c','b')">C. A tool only for young people</button>
+              <button class="qopt" onclick="checkQ('s',0,'d','b')">D. A complicated maths formula</button>
+            </div>
+            <div class="qfb" id="s0fb"></div>
+            <button class="qnext" id="s0next" onclick="switchCh(1)">Next Lesson: Variables 📦 →</button>
+          </div>
+        </div>
+      </div><!-- end ch0 -->
+
+      <!-- =================== CHAPTER 1: VARIABLES =================== -->
+      <div class="lesson" id="ch1">
+
+        <!-- KIDS -->
+        <div class="age-block" data-for="kids">
+          <div class="strip">
+            <div class="row r1">
+              <div class="panel p-pink p-hero">
+                <div style="font-family:var(--font-kids);font-size:44px;color:var(--pink)">Variables = Magic Boxes! 📦✨</div>
+                <div style="font-size:60px;margin:12px 0">🧸🎀🪀</div>
+                <div class="kids-fun-box" style="max-width:400px">A variable is a special magic box that can remember ONE thing — a number, a name, or anything you put inside!</div>
+              </div>
+            </div>
+            <div class="row r2">
+              <div class="panel p-yellow">
+                <span class="plabel pl-pink">Your Toy Box! 🧸</span>
+                <div class="char">
+                  <div class="aw"><div class="avatar" style="border-color:var(--pink)">🦁</div><div class="an">Leo</div></div>
+                  <div class="bubble bkids">Imagine magic boxes on a shelf. Each box has a name sticker. You put ONE thing inside each box!</div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:12px;justify-content:center;flex-wrap:wrap">
+                  <div class="mem-card" style="border-color:var(--pink);background:var(--pink-light)">
+                    <div class="mc-label" style="color:var(--pink)">age</div>
+                    <div style="font-size:24px">📦</div>
+                    <div class="mc-val">7</div>
+                  </div>
+                  <div class="mem-card" style="border-color:var(--blue);background:var(--blue-light)">
+                    <div class="mc-label" style="color:var(--blue)">name</div>
+                    <div style="font-size:24px">📦</div>
+                    <div class="mc-val" style="font-size:13px">"Arya"</div>
+                  </div>
+                  <div class="mem-card" style="border-color:var(--green-dark);background:var(--green-light)">
+                    <div class="mc-label" style="color:var(--green-dark)">pets</div>
+                    <div style="font-size:24px">📦</div>
+                    <div class="mc-val">3</div>
+                  </div>
+                </div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-pink">Making a Magic Box in Java!</span>
+                <div class="codeblock"><span class="cmt">// Make a box called "age", put 7 in it</span>
+<span class="kw">int</span> age = <span class="num">7</span>;
+
+<span class="cmt">// Make a name box</span>
+<span class="cls">String</span> name = <span class="str">"Arya"</span>;
+
+<span class="cmt">// Make a pets box</span>
+<span class="kw">int</span> pets = <span class="num">3</span>;
+
+<span class="cmt">// Show what's in the boxes!</span>
+<span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(name);
+<span class="cmt">// Prints: Arya</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🦁 Leo's Puzzle! <span class="quiz-xp">+100 XP ⭐</span></div>
+            <div class="quiz-q">If you make a magic box called <code>score</code> and put the number <code>100</code> inside, what does the box hold?</div>
+            <div class="quiz-opts" id="k1opts">
+              <button class="qopt" onclick="checkQ('k',1,'a','b')">A. The word "score"</button>
+              <button class="qopt" onclick="checkQ('k',1,'b','b')">B. The number 100 ✓</button>
+              <button class="qopt" onclick="checkQ('k',1,'c','b')">C. Nothing — boxes are empty!</button>
+              <button class="qopt" onclick="checkQ('k',1,'d','b')">D. A picture of the number</button>
+            </div>
+            <div class="qfb" id="k1fb"></div>
+            <button class="qnext" id="k1next" onclick="switchCh(2)">Next: Data Types 🔢 →</button>
+          </div>
+        </div>
+
+        <!-- TWEENS -->
+        <div class="age-block" data-for="tweens">
+          <div class="strip">
+            <div class="row r2">
+              <div class="panel">
+                <span class="plabel pl-orange">Variables — Player Stats 🎮</span>
+                <div class="char">
+                  <div class="aw"><div class="avatar">🎮</div><div class="an">Aryan</div></div>
+                  <div class="bubble">In a game, every player has stats — health, score, level. <strong>Variables store those stats!</strong> Without variables, your game can't remember anything!</div>
+                </div>
+                <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;justify-content:center">
+                  <div class="mem-card"><div class="mc-label">health</div><div class="mc-val">100</div></div>
+                  <div class="mem-card" style="border-color:var(--blue)"><div class="mc-label" style="color:var(--blue)">playerName</div><div class="mc-val" style="font-size:12px">"Aryan"</div></div>
+                  <div class="mem-card" style="border-color:var(--green-dark)"><div class="mc-label" style="color:var(--green-dark)">level</div><div class="mc-val">5</div></div>
+                </div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-green">Player Stats in Java</span>
+                <div class="codeblock"><span class="cmt">// Game variables</span>
+<span class="cls">String</span> playerName = <span class="str">"Aryan"</span>;
+<span class="kw">int</span> health = <span class="num">100</span>;
+<span class="kw">int</span> level  = <span class="num">5</span>;
+<span class="kw">double</span> speed  = <span class="num">2.5</span>;
+<span class="kw">boolean</span> hasShield = <span class="kw">false</span>;
+
+<span class="cmt">// Player takes damage!</span>
+health -= <span class="num">20</span>; <span class="cmt">// health = 80</span>
+
+<span class="cmt">// Level up!</span>
+level++; <span class="cmt">// level = 6</span>
+
+<span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"HP: "</span> + health);</div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🎮 Mission Check! <span class="quiz-xp">+100 XP</span></div>
+            <div class="quiz-q">A player's health starts at 100. After <code>health -= 30;</code> and then <code>health += 10;</code>, what is the health?</div>
+            <div class="quiz-opts" id="t1opts">
+              <button class="qopt" onclick="checkQ('t',1,'a','c')">A. 70</button>
+              <button class="qopt" onclick="checkQ('t',1,'b','c')">B. 60</button>
+              <button class="qopt" onclick="checkQ('t',1,'c','c')">C. 80 ✓</button>
+              <button class="qopt" onclick="checkQ('t',1,'d','c')">D. 100</button>
+            </div>
+            <div class="qfb" id="t1fb"></div>
+            <button class="qnext" id="t1next" onclick="switchCh(2)">Next: Data Types →</button>
+          </div>
+        </div>
+
+        <!-- TEENS -->
+        <div class="age-block" data-for="teens">
+          <div class="strip">
+            <div class="row r2">
+              <div class="panel">
+                <span class="plabel">Variables & Memory</span>
+                <div class="char">
+                  <div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div>
+                  <div class="bubble">A variable is a <strong>named memory location</strong> that holds a value of a specific type. Java is statically typed — you declare the type at compile time and it cannot change.</div>
+                </div>
+                <div style="margin-top:10px">
+                  <div class="mem">
+                    <div class="mc"><div class="ml">int age</div><div class="mv">19</div></div>
+                    <div class="mc"><div class="ml">double gpa</div><div class="mv">8.7</div></div>
+                    <div class="mc"><div class="ml">String name</div><div class="mv" style="font-size:12px">"Zara"</div></div>
+                    <div class="mc"><div class="ml">boolean valid</div><div class="mv" style="font-size:12px">true</div></div>
+                  </div>
+                  <div style="font-size:11px;color:#888;text-align:center;margin-top:3px">↑ stored in RAM (stack / heap)</div>
+                </div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-blue">Variable Declaration</span>
+                <div class="codeblock"><span class="cmt">// Declare + initialize</span>
+<span class="kw">int</span> age = <span class="num">19</span>;
+<span class="kw">double</span> gpa = <span class="num">8.7</span>;
+<span class="cls">String</span> name = <span class="str">"Zara"</span>;
+<span class="kw">boolean</span> isValid = <span class="kw">true</span>;
+
+<span class="cmt">// Declare, assign later</span>
+<span class="kw">int</span> score;
+score = <span class="num">95</span>;
+
+<span class="cmt">// final = constant (like const)</span>
+<span class="kw">final double</span> PI = <span class="num">3.14159</span>;
+<span class="cmt">// PI = 3; → compile ERROR!</span>
+
+<span class="cmt">// Type inference (Java 10+)</span>
+<span class="kw">var</span> city = <span class="str">"Mumbai"</span>; <span class="cmt">// infers String</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div>
+            <div class="quiz-q">What keyword makes a variable's value unchangeable after assignment?</div>
+            <div class="quiz-opts" id="n1opts">
+              <button class="qopt" onclick="checkQ('n',1,'a','b')">A. static</button>
+              <button class="qopt" onclick="checkQ('n',1,'b','b')">B. final ✓</button>
+              <button class="qopt" onclick="checkQ('n',1,'c','b')">C. const</button>
+              <button class="qopt" onclick="checkQ('n',1,'d','b')">D. fixed</button>
+            </div>
+            <div class="qfb" id="n1fb"></div>
+            <button class="qnext" id="n1next" onclick="switchCh(2)">Next: Data Types →</button>
+          </div>
+        </div>
+
+        <!-- ADULTS -->
+        <div class="age-block" data-for="adults">
+          <div class="strip">
+            <div class="row r2">
+              <div class="panel">
+                <span class="plabel">Variables — Memory & Scope</span>
+                <div class="char">
+                  <div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div>
+                  <div class="bubble">In Java, every variable has a <strong>type</strong>, <strong>name</strong>, <strong>value</strong>, and <strong>scope</strong>. Primitive types live on the stack; reference types store an address pointing to heap memory.</div>
+                </div>
+                <div style="margin-top:10px">
+                  <div class="cbox cblue"><div class="ct">📌 Scope</div>Local variables exist within their block {}. Instance variables belong to an object. Static variables belong to the class itself.</div>
+                </div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-blue">Variables — Full Picture</span>
+                <div class="codeblock"><span class="cmt">// Primitive — value stored on stack</span>
+<span class="kw">int</span> count = <span class="num">0</span>;
+<span class="kw">final double</span> TAX = <span class="num">0.18</span>; <span class="cmt">// constant</span>
+
+<span class="cmt">// Reference — address on stack, data on heap</span>
+<span class="cls">String</span> name = <span class="str">"Anjali"</span>;
+
+<span class="cmt">// var keyword — type inferred (Java 10+)</span>
+<span class="kw">var</span> price = <span class="num">299.99</span>; <span class="cmt">// inferred as double</span>
+
+<span class="cmt">// Compound operators</span>
+count += <span class="num">1</span>;     <span class="cmt">// count = count + 1</span>
+count++;        <span class="cmt">// increment shorthand</span>
+
+<span class="cmt">// Ternary operator</span>
+<span class="cls">String</span> status = count > <span class="num">5</span> ? <span class="str">"High"</span> : <span class="str">"Low"</span>;</div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div>
+            <div class="quiz-q">After: <code>int x = 10; x *= 3; x -= 5;</code> — what is <code>x</code>?</div>
+            <div class="quiz-opts" id="a1opts">
+              <button class="qopt" onclick="checkQ('a',1,'a','c')">A. 25</button>
+              <button class="qopt" onclick="checkQ('a',1,'b','c')">B. 27</button>
+              <button class="qopt" onclick="checkQ('a',1,'c','c')">C. 25 ✓</button>
+              <button class="qopt" onclick="checkQ('a',1,'d','c')">D. 30</button>
+            </div>
+            <div class="qfb" id="a1fb"></div>
+            <button class="qnext" id="a1next" onclick="switchCh(2)">Next: Data Types →</button>
+          </div>
+        </div>
+
+        <!-- SENIORS -->
+        <div class="age-block" data-for="seniors">
+          <div class="strip">
+            <div class="row r1">
+              <div class="panel p-yellow p-hero">
+                <div style="font-family:var(--font-display);font-size:36px;color:var(--yellow-dark)">Variables — Labelled Jars 🫙</div>
+                <div style="font-size:16px;color:var(--ink2);max-width:480px;margin-top:10px;font-weight:600;line-height:1.7">Think of variables like labelled jars in your kitchen. Each jar has a label (the name) and contains something (the value). You can look inside any jar or change what's in it!</div>
+              </div>
+            </div>
+            <div class="row r2">
+              <div class="panel">
+                <span class="plabel" style="background:var(--yellow-dark)">Kitchen Jar Analogy 🫙</span>
+                <div style="display:flex;gap:12px;margin-top:12px;flex-wrap:wrap;justify-content:center">
+                  <div style="text-align:center">
+                    <div style="font-size:36px">🫙</div>
+                    <div style="background:#fff0d9;border:2px solid var(--orange);border-radius:8px;padding:6px 12px;margin-top:4px">
+                      <div style="font-size:10px;font-weight:800;color:var(--orange)">LABEL: age</div>
+                      <div style="font-size:18px;font-weight:800">65</div>
+                    </div>
+                  </div>
+                  <div style="text-align:center">
+                    <div style="font-size:36px">🫙</div>
+                    <div style="background:var(--blue-light);border:2px solid var(--blue);border-radius:8px;padding:6px 12px;margin-top:4px">
+                      <div style="font-size:10px;font-weight:800;color:var(--blue)">LABEL: name</div>
+                      <div style="font-size:14px;font-weight:800">"Sudha"</div>
+                    </div>
+                  </div>
+                  <div style="text-align:center">
+                    <div style="font-size:36px">🫙</div>
+                    <div style="background:var(--green-light);border:2px solid var(--green-dark);border-radius:8px;padding:6px 12px;margin-top:4px">
+                      <div style="font-size:10px;font-weight:800;color:var(--green-dark)">LABEL: retired</div>
+                      <div style="font-size:18px;font-weight:800">true</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="bubble binfo" style="margin-top:12px;font-size:13px">💡 "true" and "false" are special values in Java that mean Yes/No. Very useful for describing a state!</div>
+              </div>
+              <div class="panel p-code">
+                <span class="plabel pl-green">In Java — Plain Steps</span>
+                <div class="stepbox" style="margin-bottom:10px">
+                  <div class="step"><div class="step-num">1</div><div class="step-text"><strong>Choose the jar type</strong>int for whole numbers, String for words, double for decimals</div></div>
+                  <div class="step"><div class="step-num">2</div><div class="step-text"><strong>Write the label</strong>This is the variable name — like "age" or "name"</div></div>
+                  <div class="step"><div class="step-num">3</div><div class="step-text"><strong>Put in the value</strong>Use = sign to put something in the jar</div></div>
+                </div>
+                <div class="codeblock"><span class="kw">int</span>     age  = <span class="num">65</span>;
+<span class="cls">String</span>  name = <span class="str">"Sudha"</span>;
+<span class="kw">boolean</span> retired = <span class="kw">true</span>;
+
+<span class="cmt">// Read what's in the jar:</span>
+<span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(name);
+<span class="cmt">// Shows: Sudha</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="quiz">
+            <div class="quiz-title">🌿 Gentle Check! <span class="quiz-xp">+100 XP</span></div>
+            <div class="quiz-q">Using the jar analogy — if you write <code>int age = 65;</code> what is the "label" and what is "inside the jar"?</div>
+            <div class="quiz-opts" id="s1opts">
+              <button class="qopt" onclick="checkQ('s',1,'a','b')">A. Label = 65, Inside = age</button>
+              <button class="qopt" onclick="checkQ('s',1,'b','b')">B. Label = age, Inside = 65 ✓</button>
+              <button class="qopt" onclick="checkQ('s',1,'c','b')">C. Label = int, Inside = age</button>
+              <button class="qopt" onclick="checkQ('s',1,'d','b')">D. The jar is empty</button>
+            </div>
+            <div class="qfb" id="s1fb"></div>
+            <button class="qnext" id="s1next" onclick="switchCh(2)">Next: Data Types 🔢 →</button>
+          </div>
+        </div>
+      </div><!-- end ch1 -->
+
+      <!-- Chapters 2–8: Compact age-adaptive stubs with full quiz -->
+      <!-- CHAPTER 2 -->
+      <div class="lesson" id="ch2">
+        <div class="age-block" data-for="kids">
+          <div class="strip"><div class="row r1"><div class="panel p-pink"><span class="plabel pl-pink">Types of Magic Boxes! 🎁</span>
+          <div class="char" style="margin-top:8px"><div class="aw"><div class="avatar" style="border-color:var(--pink)">🦁</div><div class="an">Leo</div></div><div class="bubble bkids">Some boxes can only hold <strong>whole numbers</strong> like 5 or 12 🔢. Some only hold <strong>words</strong> like "Cat" 🐱. Some only hold <strong>Yes or No</strong> 👍👎. You must use the RIGHT box for the RIGHT thing!</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:12px">
+            <div class="cbox cpink"><div class="ct">🔢 int</div>Counting numbers: 1, 5, 100, 7</div>
+            <div class="cbox cblue"><div class="ct">📝 String</div>Words & names: "Leo", "Hello!"</div>
+            <div class="cbox cgreen"><div class="ct">👍 boolean</div>Only YES (true) or NO (false)</div>
+            <div class="cbox cyellow"><div class="ct">🌡️ double</div>Numbers with a dot: 3.5, 9.99</div>
+          </div></div></div></div>
+          <div class="quiz"><div class="quiz-title">🦁 Leo's Puzzle! <span class="quiz-xp">+100 XP ⭐</span></div>
+          <div class="quiz-q">You want to store your pet's name "Fluffy". Which magic box do you use?</div>
+          <div class="quiz-opts" id="k2opts">
+            <button class="qopt" onclick="checkQ('k',2,'a','b')">A. int (number box)</button>
+            <button class="qopt" onclick="checkQ('k',2,'b','b')">B. String (word box) ✓</button>
+            <button class="qopt" onclick="checkQ('k',2,'c','b')">C. boolean (yes/no box)</button>
+            <button class="qopt" onclick="checkQ('k',2,'d','b')">D. double (dotty number box)</button>
+          </div><div class="qfb" id="k2fb"></div><button class="qnext" id="k2next" onclick="switchCh(3)">Next: Decisions! →</button></div>
+        </div>
+        <div class="age-block" data-for="tweens">
+          <div class="strip"><div class="row r2">
+          <div class="panel"><span class="plabel pl-orange">Data Types — Game Inventory 🎮</span>
+          <div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🎮</div><div class="an">Aryan</div></div><div class="bubble">Different stats need different containers! Health = int. Speed = double. PlayerName = String. IsAlive = boolean.</div></div>
+          <table class="dtable" style="margin-top:10px"><thead><tr><th>Type</th><th>Stores</th><th>Game Example</th></tr></thead><tbody>
+          <tr><td><span class="pill po">int</span></td><td>Whole numbers</td><td>health = 100</td></tr>
+          <tr><td><span class="pill po">double</span></td><td>Decimals</td><td>speed = 2.75</td></tr>
+          <tr><td><span class="pill pb">String</span></td><td>Text</td><td>username = "XGamer"</td></tr>
+          <tr><td><span class="pill po">boolean</span></td><td>true/false</td><td>isAlive = true</td></tr>
+          <tr><td><span class="pill po">char</span></td><td>One character</td><td>difficulty = 'H'</td></tr>
+          </tbody></table></div>
+          <div class="panel p-code"><span class="plabel pl-green">Full Game Character</span><div class="codeblock"><span class="cls">String</span>  name    = <span class="str">"XGamer"</span>;
+<span class="kw">int</span>     health  = <span class="num">100</span>;
+<span class="kw">double</span>  speed   = <span class="num">2.75</span>;
+<span class="kw">boolean</span> isAlive = <span class="kw">true</span>;
+<span class="kw">char</span>    rank    = <span class="str">'A'</span>;
+
+<span class="cmt">// Type casting: int → double</span>
+<span class="kw">double</span> d = (<span class="kw">double</span>) health;
+<span class="cmt">// d = 100.0</span></div></div>
+          </div></div>
+          <div class="quiz"><div class="quiz-title">🎮 Mission Check! <span class="quiz-xp">+100 XP</span></div>
+          <div class="quiz-q">What happens when you write <code>int x = 9.99;</code> in Java?</div>
+          <div class="quiz-opts" id="t2opts">
+            <button class="qopt" onclick="checkQ('t',2,'a','c')">A. x becomes 9.99</button>
+            <button class="qopt" onclick="checkQ('t',2,'b','c')">B. x becomes 10</button>
+            <button class="qopt" onclick="checkQ('t',2,'c','c')">C. Compile error — int can't hold decimals ✓</button>
+            <button class="qopt" onclick="checkQ('t',2,'d','c')">D. x becomes 0</button>
+          </div><div class="qfb" id="t2fb"></div><button class="qnext" id="t2next" onclick="switchCh(3)">Next: If/Else →</button></div>
+        </div>
+        <div class="age-block" data-for="teens">
+          <div class="strip"><div class="row r2">
+          <div class="panel"><span class="plabel">Primitives vs References</span>
+          <div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble"><strong>Primitives</strong> (int, double, boolean, char, byte, short, long, float) store actual values on the stack. <strong>References</strong> (String, arrays, objects) store a memory address pointing to heap data.</div></div>
+          <table class="dtable" style="margin-top:10px"><thead><tr><th>Primitive</th><th>Size</th><th>Range</th></tr></thead><tbody>
+          <tr><td><code>byte</code></td><td>1 byte</td><td>-128 to 127</td></tr>
+          <tr><td><code>int</code></td><td>4 bytes</td><td>±2.1 billion</td></tr>
+          <tr><td><code>long</code></td><td>8 bytes</td><td>±9.2 quintillion</td></tr>
+          <tr><td><code>double</code></td><td>8 bytes</td><td>64-bit IEEE 754</td></tr>
+          <tr><td><code>boolean</code></td><td>1 bit</td><td>true / false</td></tr>
+          </tbody></table></div>
+          <div class="panel p-code"><span class="plabel pl-blue">Type Casting</span><div class="codeblock"><span class="cmt">// Widening (automatic) — safe</span>
+<span class="kw">int</span> i = <span class="num">100</span>;
+<span class="kw">double</span> d = i; <span class="cmt">// 100.0, no cast needed</span>
+
+<span class="cmt">// Narrowing (explicit) — may lose data</span>
+<span class="kw">double</span> x = <span class="num">9.99</span>;
+<span class="kw">int</span> y = (<span class="kw">int</span>) x; <span class="cmt">// y = 9 (truncates!)</span>
+
+<span class="cmt">// String conversions</span>
+<span class="cls">String</span> s = <span class="cls">String</span>.<span class="fn">valueOf</span>(<span class="num">42</span>);
+<span class="kw">int</span> n = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(<span class="str">"42"</span>);</div></div>
+          </div></div>
+          <div class="quiz"><div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div>
+          <div class="quiz-q"><code>double d = 9.99; int x = (int) d;</code> — what is x?</div>
+          <div class="quiz-opts" id="n2opts">
+            <button class="qopt" onclick="checkQ('n',2,'a','b')">A. 10</button>
+            <button class="qopt" onclick="checkQ('n',2,'b','b')">B. 9 ✓</button>
+            <button class="qopt" onclick="checkQ('n',2,'c','b')">C. 9.99</button>
+            <button class="qopt" onclick="checkQ('n',2,'d','b')">D. Error</button>
+          </div><div class="qfb" id="n2fb"></div><button class="qnext" id="n2next" onclick="switchCh(3)">Next: If/Else →</button></div>
+        </div>
+        <div class="age-block" data-for="adults">
+          <div class="strip"><div class="row r2">
+          <div class="panel"><span class="plabel">Type System — Primitives & Wrappers</span>
+          <div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble">Java has 8 primitives and their corresponding <strong>wrapper classes</strong> (Integer, Double, Boolean...) which add utility methods and enable use in Collections. Autoboxing converts automatically between them.</div></div>
+          <div style="margin-top:10px"><div class="cbox cblue"><div class="ct">📦 Autoboxing</div><code>Integer x = 5;</code> — Java auto-wraps the primitive int into an Integer object. Unboxing is the reverse. Be wary of NullPointerException when unboxing null.</div></div></div>
+          <div class="panel p-code"><span class="plabel pl-blue">Types in Practice</span><div class="codeblock"><span class="cmt">// Prefer int over Integer for primitives</span>
+<span class="kw">int</span> count = <span class="num">0</span>;
+
+<span class="cmt">// long for IDs, timestamps</span>
+<span class="kw">long</span> orderId = <span class="num">9_876_543_210L</span>;
+
+<span class="cmt">// BigDecimal for money — never float/double!</span>
+<span class="cls">BigDecimal</span> price = <span class="kw">new</span> <span class="cls">BigDecimal</span>(<span class="str">"299.99"</span>);
+
+<span class="cmt">// String immutable — new object on concat</span>
+<span class="cls">String</span> s1 = <span class="str">"Hello"</span>;
+<span class="cls">String</span> s2 = s1 + <span class="str">" World"</span>; <span class="cmt">// new object</span>
+
+<span class="cmt">// Use StringBuilder for heavy concat</span>
+<span class="cls">StringBuilder</span> sb = <span class="kw">new</span> <span class="cls">StringBuilder</span>();
+sb.<span class="fn">append</span>(<span class="str">"Hello"</span>).<span class="fn">append</span>(<span class="str">" World"</span>);</div></div>
+          </div></div>
+          <div class="quiz"><div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div>
+          <div class="quiz-q">For financial calculations (like invoice amounts), which Java type should you use?</div>
+          <div class="quiz-opts" id="a2opts">
+            <button class="qopt" onclick="checkQ('a',2,'a','c')">A. double</button>
+            <button class="qopt" onclick="checkQ('a',2,'b','c')">B. float</button>
+            <button class="qopt" onclick="checkQ('a',2,'c','c')">C. BigDecimal ✓</button>
+            <button class="qopt" onclick="checkQ('a',2,'d','c')">D. long</button>
+          </div><div class="qfb" id="a2fb"></div><button class="qnext" id="a2next" onclick="switchCh(3)">Next: If/Else →</button></div>
+        </div>
+        <div class="age-block" data-for="seniors">
+          <div class="strip"><div class="row r1"><div class="panel p-yellow"><span class="plabel" style="background:var(--yellow-dark)">Types of Jars — Choosing the Right One 🫙</span>
+          <div class="char" style="margin-top:10px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble" style="font-size:15px;line-height:1.7">Just like in a kitchen you use different containers for sugar, salt, and liquids — Java uses different types for different kinds of information. Using the wrong jar causes an error!</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-top:14px">
+            <div class="cbox"><div class="ct">🔢 int — Counting Jar</div>Whole numbers only. Age: 65, Number of grandchildren: 3</div>
+            <div class="cbox cblue"><div class="ct">📝 String — Word Jar</div>Names and sentences. "Good morning", "Sudha Rani"</div>
+            <div class="cbox cgreen"><div class="ct">💧 double — Liquid Jar</div>Numbers with decimals. Price: 299.50, Weight: 67.3</div>
+            <div class="cbox cyellow"><div class="ct">✅ boolean — Switch</div>Only ON or OFF. true = yes. false = no.</div>
+          </div></div></div></div>
+          <div class="quiz"><div class="quiz-title">🌿 Gentle Check! <span class="quiz-xp">+100 XP</span></div>
+          <div class="quiz-q">To store your daughter's name "Priya", which type (jar) should you use?</div>
+          <div class="quiz-opts" id="s2opts">
+            <button class="qopt" onclick="checkQ('s',2,'a','b')">A. int (counting jar)</button>
+            <button class="qopt" onclick="checkQ('s',2,'b','b')">B. String (word jar) ✓</button>
+            <button class="qopt" onclick="checkQ('s',2,'c','b')">C. boolean (yes/no switch)</button>
+            <button class="qopt" onclick="checkQ('s',2,'d','b')">D. double (decimal jar)</button>
+          </div><div class="qfb" id="s2fb"></div><button class="qnext" id="s2next" onclick="switchCh(3)">Next: Decisions 🔀 →</button></div>
+        </div>
+      </div><!-- end ch2 -->
+
+      <!-- CHAPTERS 3–8: age-adaptive stubs -->
+      <div class="lesson" id="ch3"><div class="age-block" data-for="kids"><div class="strip"><div class="row r1"><div class="panel p-pink"><span class="plabel pl-pink">If/Else — Choose Your Path! 🌈</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar" style="border-color:var(--pink)">🦁</div><div class="an">Leo</div></div><div class="bubble bkids">In a choose-your-own-adventure book — IF you go left, you find treasure! ELSE you go right and find a dragon! Java does the same thing!</div></div><div class="codeblock" style="margin-top:10px"><span class="kw">int</span> stars = <span class="num">5</span>;
+<span class="kw">if</span> (stars == <span class="num">5</span>) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"⭐⭐⭐⭐⭐ AMAZING!"</span>);
+} <span class="kw">else</span> {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Keep trying! 💪"</span>);
+}</div></div></div></div><div class="quiz"><div class="quiz-title">🦁 Leo's Puzzle! <span class="quiz-xp">+100 XP ⭐</span></div><div class="quiz-q">If <code>stars = 3</code> and you check <code>if(stars == 5)</code>, which part runs?</div><div class="quiz-opts" id="k3opts"><button class="qopt" onclick="checkQ('k',3,'a','b')">A. The if part — AMAZING!</button><button class="qopt" onclick="checkQ('k',3,'b','b')">B. The else part — Keep trying! ✓</button><button class="qopt" onclick="checkQ('k',3,'c','b')">C. Both parts run</button><button class="qopt" onclick="checkQ('k',3,'d','b')">D. Nothing runs</button></div><div class="qfb" id="k3fb"></div><button class="qnext" id="k3next" onclick="switchCh(4)">Next: Loops! →</button></div></div>
+      <div class="age-block" data-for="tweens"><div class="strip"><div class="row r2"><div class="panel"><span class="plabel pl-orange">If/Else — Game Logic 🕹️</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🎮</div><div class="an">Aryan</div></div><div class="bubble">Every game uses if/else — "IF health &lt; 10, show warning. ELSE show normal HUD." You control the game's brain!</div></div><div class="codeblock cb-light" style="margin-top:10px"><span class="kw2">if</span> (health &lt;= <span style="color:#b45309">10</span>) {
+  System.out.println(<span class="str2">"⚠️ LOW HP!"</span>);
+} <span class="kw2">else if</span> (health &lt;= <span style="color:#b45309">50</span>) {
+  System.out.println(<span class="str2">"Yellow zone"</span>);
+} <span class="kw2">else</span> {
+  System.out.println(<span class="str2">"✅ Full HP"</span>);
+}</div></div><div class="panel p-code"><span class="plabel pl-blue">Switch Statement</span><div class="codeblock"><span class="kw">switch</span> (level) {
+  <span class="kw">case</span> <span class="num">1</span>: <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Beginner"</span>); <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="num">2</span>: <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Intermediate"</span>); <span class="kw">break</span>;
+  <span class="kw">case</span> <span class="num">3</span>: <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Expert"</span>); <span class="kw">break</span>;
+  <span class="kw">default</span>: <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Unknown"</span>);
+}</div></div></div></div><div class="quiz"><div class="quiz-title">🎮 Mission Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">What does <code>&&</code> mean in Java?</div><div class="quiz-opts" id="t3opts"><button class="qopt" onclick="checkQ('t',3,'a','b')">A. OR — at least one is true</button><button class="qopt" onclick="checkQ('t',3,'b','b')">B. AND — BOTH must be true ✓</button><button class="qopt" onclick="checkQ('t',3,'c','b')">C. NOT — reverse the truth</button><button class="qopt" onclick="checkQ('t',3,'d','b')">D. Equal to</button></div><div class="qfb" id="t3fb"></div><button class="qnext" id="t3next" onclick="switchCh(4)">Next: Loops →</button></div></div>
+      <div class="age-block" data-for="teens"><div class="strip"><div class="row r2"><div class="panel p-code"><span class="plabel pl-orange">Conditionals — Full Syntax</span><div class="codeblock"><span class="kw">int</span> score = <span class="num">78</span>;
+<span class="kw">if</span> (score >= <span class="num">90</span>) { <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"A"</span>); }
+<span class="kw">else if</span> (score >= <span class="num">75</span>) { <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"B"</span>); }
+<span class="kw">else</span> { <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"C or below"</span>); }
+
+<span class="cmt">// Ternary — one-liner</span>
+<span class="cls">String</span> grade = score >= <span class="num">75</span> ? <span class="str">"Pass"</span> : <span class="str">"Fail"</span>;
+
+<span class="cmt">// Switch expression (Java 14+)</span>
+<span class="cls">String</span> day = <span class="kw">switch</span>(dayNum) {
+  <span class="kw">case</span> <span class="num">1</span> -> <span class="str">"Monday"</span>;
+  <span class="kw">case</span> <span class="num">2</span> -> <span class="str">"Tuesday"</span>;
+  <span class="kw">default</span> -> <span class="str">"Other"</span>;
+};</div></div><div class="panel"><span class="plabel">Logical Operators</span><div style="margin-top:8px;display:flex;flex-direction:column;gap:8px"><div class="cbox"><div class="ct">&& (AND)</div>Both conditions must be true: <code>age >= 18 && hasID</code></div><div class="cbox cblue"><div class="ct">|| (OR)</div>At least one true: <code>isStudent || isSenior</code></div><div class="cbox cgreen"><div class="ct">! (NOT)</div>Reverses truth: <code>!isBlocked</code></div></div></div></div></div><div class="quiz"><div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">What is the output? <code>String r = 80 >= 75 ? "Pass" : "Fail";</code></div><div class="quiz-opts" id="n3opts"><button class="qopt" onclick="checkQ('n',3,'a','a')">A. "Pass" ✓</button><button class="qopt" onclick="checkQ('n',3,'b','a')">B. "Fail"</button><button class="qopt" onclick="checkQ('n',3,'c','a')">C. true</button><button class="qopt" onclick="checkQ('n',3,'d','a')">D. Error</button></div><div class="qfb" id="n3fb"></div><button class="qnext" id="n3next" onclick="switchCh(4)">Next: Loops →</button></div></div>
+      <div class="age-block" data-for="adults"><div class="strip"><div class="row r2"><div class="panel p-code"><span class="plabel pl-blue">Conditionals in Practice</span><div class="codeblock"><span class="cmt">// Traditional if-else</span>
+<span class="kw">if</span> (user.isActive() && user.hasRole(<span class="str">"ADMIN"</span>)) {
+  processRequest();
+} <span class="kw">else</span> { <span class="kw">throw new</span> <span class="cls">UnauthorizedException</span>(); }
+
+<span class="cmt">// Ternary for simple assignments</span>
+<span class="kw">double</span> discount = isPremium ? <span class="num">0.20</span> : <span class="num">0.05</span>;
+
+<span class="cmt">// Switch expression (Java 14+)</span>
+<span class="kw">int</span> days = <span class="kw">switch</span>(month) {
+  <span class="kw">case</span> <span class="num">2</span> -> <span class="num">28</span>;
+  <span class="kw">case</span> <span class="num">4</span>, <span class="num">6</span>, <span class="num">9</span>, <span class="num">11</span> -> <span class="num">30</span>;
+  <span class="kw">default</span> -> <span class="num">31</span>;
+};</div></div><div class="panel"><span class="plabel">Best Practices</span><div style="display:flex;flex-direction:column;gap:8px;margin-top:8px"><div class="cbox cblue"><div class="ct">✅ Prefer switch expressions</div>Java 14+ switch expressions are cleaner and exhaustive — compiler warns on missing cases.</div><div class="cbox cgreen"><div class="ct">✅ Guard clauses</div>Return early to avoid deeply nested if-else chains — improves readability significantly.</div><div class="cbox"><div class="ct">⚠️ == vs .equals()</div>Use == for primitives. For String/objects always use <code>.equals()</code> — == compares references!</div></div></div></div></div><div class="quiz"><div class="quiz-title">🧠 Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">When comparing two String values in Java, you should use?</div><div class="quiz-opts" id="a3opts"><button class="qopt" onclick="checkQ('a',3,'a','b')">A. == operator</button><button class="qopt" onclick="checkQ('a',3,'b','b')">B. .equals() method ✓</button><button class="qopt" onclick="checkQ('a',3,'c','b')">C. compareTo()</button><button class="qopt" onclick="checkQ('a',3,'d','b')">D. Both A and B are same</button></div><div class="qfb" id="a3fb"></div><button class="qnext" id="a3next" onclick="switchCh(4)">Next: Loops →</button></div></div>
+      <div class="age-block" data-for="seniors"><div class="strip"><div class="row r1"><div class="panel p-yellow"><span class="plabel" style="background:var(--yellow-dark)">Making Decisions — The Traffic Light 🚦</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble" style="font-size:15px;line-height:1.7">A traffic light makes decisions — <strong>IF</strong> the light is green, cars go. <strong>ELSE IF</strong> it is yellow, slow down. <strong>ELSE</strong> (red), stop! Java uses exactly this same logic!</div></div><div class="codeblock" style="margin-top:12px"><span class="cls">String</span> light = <span class="str">"green"</span>;
+
+<span class="kw">if</span> (light.<span class="fn">equals</span>(<span class="str">"green"</span>)) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Go! 🟢"</span>);
+} <span class="kw">else if</span> (light.<span class="fn">equals</span>(<span class="str">"yellow"</span>)) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Slow down... 🟡"</span>);
+} <span class="kw">else</span> {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Stop! 🔴"</span>);
+}
+<span class="cmt">// Output: Go! 🟢</span></div></div></div></div><div class="quiz"><div class="quiz-title">🌿 Gentle Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">In the traffic light code, if <code>light = "red"</code>, what will the computer print?</div><div class="quiz-opts" id="s3opts"><button class="qopt" onclick="checkQ('s',3,'a','c')">A. Go! 🟢</button><button class="qopt" onclick="checkQ('s',3,'b','c')">B. Slow down... 🟡</button><button class="qopt" onclick="checkQ('s',3,'c','c')">C. Stop! 🔴 ✓</button><button class="qopt" onclick="checkQ('s',3,'d','c')">D. Nothing</button></div><div class="qfb" id="s3fb"></div><button class="qnext" id="s3next" onclick="switchCh(4)">Next: Loops 🔁 →</button></div></div>
+      </div><!-- end ch3 -->
+
+      <!-- CH 4-8 stubs with unique age content -->
+      <div class="lesson" id="ch4"><div class="age-block" data-for="kids"><div class="panel p-pink"><span class="plabel pl-pink">Loops — Doing Things Again and Again! 🔄</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar" style="border-color:var(--pink)">🦁</div><div class="an">Leo</div></div><div class="bubble bkids">A loop is like telling your robot: "Jump 10 times!" instead of writing "Jump! Jump! Jump! Jump! Jump! Jump! Jump! Jump! Jump! Jump!" 😄</div></div><div class="codeblock" style="margin-top:10px"><span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>; i&lt;=<span class="num">5</span>; i++) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"⭐ Star number "</span> + i);
+}
+<span class="cmt">// Prints star 1, 2, 3, 4, 5!</span></div></div><div class="quiz"><div class="quiz-title">🦁 Leo's Puzzle! <span class="quiz-xp">+100 XP ⭐</span></div><div class="quiz-q">The loop <code>for(int i=1; i&lt;=3; i++)</code> will print something how many times?</div><div class="quiz-opts" id="k4opts"><button class="qopt" onclick="checkQ('k',4,'a','b')">A. 2 times</button><button class="qopt" onclick="checkQ('k',4,'b','b')">B. 3 times (1, 2, then 3!) ✓</button><button class="qopt" onclick="checkQ('k',4,'c','b')">C. 4 times</button><button class="qopt" onclick="checkQ('k',4,'d','b')">D. 1 time</button></div><div class="qfb" id="k4fb"></div><button class="qnext" id="k4next" onclick="switchCh(5)">Next: OOP! →</button></div></div>
+      <div class="age-block" data-for="tweens"><div class="panel p-blue"><span class="plabel pl-blue">Loops — Game Rounds! 🎮</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🎮</div><div class="an">Aryan</div></div><div class="bubble">In a game, each "round" is a loop! Keep playing until lives = 0. Spawn enemies every 5 seconds. Check collisions every frame. <strong>Loops power everything in games!</strong></div></div><div class="codeblock" style="margin-top:10px"><span class="kw">int</span> lives = <span class="num">3</span>;
+<span class="kw">while</span> (lives > <span class="num">0</span>) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Playing... lives: "</span> + lives);
+  lives--;
+}
+<span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"GAME OVER 💀"</span>);</div></div><div class="quiz"><div class="quiz-title">🎮 Mission Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">In the above code, what will be the LAST game output before "GAME OVER"?</div><div class="quiz-opts" id="t4opts"><button class="qopt" onclick="checkQ('t',4,'a','c')">A. Playing... lives: 3</button><button class="qopt" onclick="checkQ('t',4,'b','c')">B. Playing... lives: 2</button><button class="qopt" onclick="checkQ('t',4,'c','c')">C. Playing... lives: 1 ✓</button><button class="qopt" onclick="checkQ('t',4,'d','c')">D. Playing... lives: 0</button></div><div class="qfb" id="t4fb"></div><button class="qnext" id="t4next" onclick="switchCh(5)">Next: OOP →</button></div></div>
+      <div class="age-block" data-for="teens"><div class="panel p-code"><span class="plabel pl-orange">Loops — All 3 Types + Break/Continue</span><div class="codeblock"><span class="cmt">// For loop — known iterations</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;<span class="num">5</span>; i++) { <span class="cmt">/* runs 5 times */</span> }
+
+<span class="cmt">// Enhanced for — iterate collection</span>
+<span class="kw">int</span>[] scores = {<span class="num">80</span>,<span class="num">92</span>,<span class="num">74</span>};
+<span class="kw">for</span>(<span class="kw">int</span> s : scores) { <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(s); }
+
+<span class="cmt">// While — condition-based</span>
+<span class="kw">while</span>(userInput != <span class="num">0</span>) { processInput(); }
+
+<span class="cmt">// break — exit loop immediately</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;<span class="num">10</span>; i++) {
+  <span class="kw">if</span>(i == <span class="num">5</span>) <span class="kw">break</span>; <span class="cmt">// stops at 5</span>
+}
+
+<span class="cmt">// continue — skip this iteration</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">0</span>; i&lt;<span class="num">5</span>; i++) {
+  <span class="kw">if</span>(i == <span class="num">2</span>) <span class="kw">continue</span>; <span class="cmt">// skips 2</span>
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(i); <span class="cmt">// 0,1,3,4</span>
+}</div></div><div class="quiz"><div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">What does <code>continue</code> do inside a loop?</div><div class="quiz-opts" id="n4opts"><button class="qopt" onclick="checkQ('n',4,'a','b')">A. Exits the loop entirely</button><button class="qopt" onclick="checkQ('n',4,'b','b')">B. Skips the current iteration and moves to next ✓</button><button class="qopt" onclick="checkQ('n',4,'c','b')">C. Restarts the loop from i=0</button><button class="qopt" onclick="checkQ('n',4,'d','b')">D. Pauses execution</button></div><div class="qfb" id="n4fb"></div><button class="qnext" id="n4next" onclick="switchCh(5)">Next: OOP →</button></div></div>
+      <div class="age-block" data-for="adults"><div class="panel p-code"><span class="plabel pl-blue">Loops — Production Patterns</span><div class="codeblock"><span class="cmt">// Iterator pattern — preferred for collections</span>
+<span class="cls">List</span>&lt;<span class="cls">Order</span>&gt; orders = getOrders();
+<span class="kw">for</span>(<span class="cls">Order</span> o : orders) { processOrder(o); }
+
+<span class="cmt">// forEach + lambda (Java 8+) — functional style</span>
+orders.<span class="fn">forEach</span>(o -> processOrder(o));
+orders.<span class="fn">forEach</span>(<span class="cls">OrderService</span>::processOrder);
+
+<span class="cmt">// Avoid infinite loops in production!</span>
+<span class="kw">int</span> attempts = <span class="num">0</span>;
+<span class="kw">while</span>(attempts &lt; <span class="num">3</span> && !success) {
+  success = tryOperation();
+  attempts++;
+}
+
+<span class="cmt">// do-while — execute at least once</span>
+<span class="kw">do</span> {
+  result = dbQuery();
+} <span class="kw">while</span>(result.isEmpty() && retries-- > <span class="num">0</span>);</div></div><div class="quiz"><div class="quiz-title">🧠 Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">In Java 8+, what is the most idiomatic way to iterate a List and call a method on each element?</div><div class="quiz-opts" id="a4opts"><button class="qopt" onclick="checkQ('a',4,'a','c')">A. Traditional for loop with index</button><button class="qopt" onclick="checkQ('a',4,'b','c')">B. while loop</button><button class="qopt" onclick="checkQ('a',4,'c','c')">C. forEach() with lambda or method reference ✓</button><button class="qopt" onclick="checkQ('a',4,'d','c')">D. do-while</button></div><div class="qfb" id="a4fb"></div><button class="qnext" id="a4next" onclick="switchCh(5)">Next: OOP →</button></div></div>
+      <div class="age-block" data-for="seniors"><div class="panel p-yellow"><span class="plabel" style="background:var(--yellow-dark)">Loops — Like a Knitting Pattern 🧶</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble" style="font-size:15px;line-height:1.7">If you knit a scarf, you repeat the same stitch 200 times. You don't write it 200 times in your pattern — you write "Repeat stitch 200 times." A loop works exactly like this!</div></div><div class="codeblock" style="margin-top:10px"><span class="cmt">// "Repeat this 5 times:"</span>
+<span class="kw">for</span>(<span class="kw">int</span> i=<span class="num">1</span>; i&lt;=<span class="num">5</span>; i++) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Good morning! 🌅"</span>);
+}
+<span class="cmt">// Prints "Good morning!" 5 times</span></div></div><div class="quiz"><div class="quiz-title">🌿 Gentle Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">Using the knitting analogy — what is a loop?</div><div class="quiz-opts" id="s4opts"><button class="qopt" onclick="checkQ('s',4,'a','b')">A. A way to stop the program</button><button class="qopt" onclick="checkQ('s',4,'b','b')">B. A way to repeat an action multiple times without rewriting it ✓</button><button class="qopt" onclick="checkQ('s',4,'c','b')">C. A type of variable</button><button class="qopt" onclick="checkQ('s',4,'d','b')">D. A mistake in the code</button></div><div class="qfb" id="s4fb"></div><button class="qnext" id="s4next" onclick="switchCh(5)">Next: OOP 🏛 →</button></div></div>
+      </div><!-- end ch4 -->
+
+      <!-- CH5: OOP -->
+      <div class="lesson" id="ch5"><div class="age-block" data-for="kids"><div class="panel p-pink"><span class="plabel pl-pink">OOP — Building with LEGO! 🧱</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar" style="border-color:var(--pink)">🦁</div><div class="an">Leo</div></div><div class="bubble bkids">A Class is like a LEGO instruction booklet 📖. An Object is the actual LEGO model you build! You can build MANY models from ONE booklet!</div></div></div><div class="quiz"><div class="quiz-title">🦁 Leo's Puzzle! <span class="quiz-xp">+100 XP ⭐</span></div><div class="quiz-q">A Class is like a LEGO instruction booklet. What is the LEGO model you actually build?</div><div class="quiz-opts" id="k5opts"><button class="qopt" onclick="checkQ('k',5,'a','b')">A. A Class</button><button class="qopt" onclick="checkQ('k',5,'b','b')">B. An Object ✓</button><button class="qopt" onclick="checkQ('k',5,'c','b')">C. A variable</button><button class="qopt" onclick="checkQ('k',5,'d','b')">D. A loop</button></div><div class="qfb" id="k5fb"></div><button class="qnext" id="k5next" onclick="switchCh(6)">Next: Errors! →</button></div></div>
+      <div class="age-block" data-for="tweens"><div class="panel"><span class="plabel pl-orange">OOP — Design Your Own Game Character! 🎮</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🎮</div><div class="an">Aryan</div></div><div class="bubble">You design ONE hero blueprint (Class). Then you CREATE as many heroes as you want from it (Objects). Every hero is unique but follows the same blueprint!</div></div><div class="codeblock" style="margin-top:10px"><span class="kw">class</span> <span class="cls">Hero</span> {
+  <span class="cls">String</span> name; <span class="kw">int</span> health;
+  <span class="kw">void</span> <span class="fn">attack</span>() { <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(name + <span class="str">" attacks! ⚔️"</span>); }
+}
+<span class="cls">Hero</span> h1 = <span class="kw">new</span> <span class="cls">Hero</span>();
+h1.name = <span class="str">"Shadow"</span>; h1.health = <span class="num">100</span>;
+h1.<span class="fn">attack</span>(); <span class="cmt">// Shadow attacks! ⚔️</span></div></div><div class="quiz"><div class="quiz-title">🎮 Mission Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">You create <code>Hero h = new Hero();</code>. What is <code>h</code>?</div><div class="quiz-opts" id="t5opts"><button class="qopt" onclick="checkQ('t',5,'a','b')">A. A class (blueprint)</button><button class="qopt" onclick="checkQ('t',5,'b','b')">B. An object (instance of Hero) ✓</button><button class="qopt" onclick="checkQ('t',5,'c','b')">C. A method</button><button class="qopt" onclick="checkQ('t',5,'d','b')">D. An int variable</button></div><div class="qfb" id="t5fb"></div><button class="qnext" id="t5next" onclick="switchCh(6)">Next: Errors →</button></div></div>
+      <div class="age-block" data-for="teens"><div class="panel p-code"><span class="plabel pl-purple">OOP — Class Anatomy</span><div class="codeblock"><span class="kw">public class</span> <span class="cls">BankAccount</span> {
+  <span class="cmt">// Fields (encapsulated — private)</span>
+  <span class="kw">private</span> <span class="cls">String</span> owner;
+  <span class="kw">private double</span> balance;
+
+  <span class="cmt">// Constructor</span>
+  <span class="kw">public</span> <span class="cls">BankAccount</span>(<span class="cls">String</span> owner, <span class="kw">double</span> initialBalance) {
+    <span class="kw">this</span>.owner = owner;
+    <span class="kw">this</span>.balance = initialBalance;
+  }
+
+  <span class="cmt">// Getter</span>
+  <span class="kw">public double</span> <span class="fn">getBalance</span>() { <span class="kw">return</span> balance; }
+
+  <span class="cmt">// Method</span>
+  <span class="kw">public void</span> <span class="fn">deposit</span>(<span class="kw">double</span> amount) { balance += amount; }
+}
+<span class="cmt">// Usage:</span>
+<span class="cls">BankAccount</span> acc = <span class="kw">new</span> <span class="cls">BankAccount</span>(<span class="str">"Zara"</span>, <span class="num">5000</span>);
+acc.<span class="fn">deposit</span>(<span class="num">2000</span>); <span class="cmt">// balance = 7000</span></div></div><div class="quiz"><div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">Why are fields marked <code>private</code> in the BankAccount class?</div><div class="quiz-opts" id="n5opts"><button class="qopt" onclick="checkQ('n',5,'a','b')">A. To make code run faster</button><button class="qopt" onclick="checkQ('n',5,'b','b')">B. To enforce encapsulation — prevent direct external modification ✓</button><button class="qopt" onclick="checkQ('n',5,'c','b')">C. It's just a convention with no effect</button><button class="qopt" onclick="checkQ('n',5,'d','b')">D. Required by the compiler</button></div><div class="qfb" id="n5fb"></div><button class="qnext" id="n5next" onclick="switchCh(6)">Next: Errors →</button></div></div>
+      <div class="age-block" data-for="adults"><div class="panel p-code"><span class="plabel pl-blue">OOP — SOLID Principles Preview</span><div class="codeblock"><span class="cmt">// Encapsulation: private fields + public API</span>
+<span class="kw">public class</span> <span class="cls">Order</span> {
+  <span class="kw">private final</span> <span class="cls">List</span>&lt;<span class="cls">Item</span>&gt; items = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+  <span class="kw">private</span> <span class="cls">OrderStatus</span> status = <span class="cls">OrderStatus</span>.PENDING;
+
+  <span class="kw">public void</span> <span class="fn">addItem</span>(<span class="cls">Item</span> item) { items.<span class="fn">add</span>(item); }
+  <span class="kw">public void</span> <span class="fn">confirm</span>() { status = <span class="cls">OrderStatus</span>.CONFIRMED; }
+}
+
+<span class="cmt">// Inheritance: reuse via extends</span>
+<span class="kw">class</span> <span class="cls">PremiumOrder</span> <span class="kw">extends</span> <span class="cls">Order</span> {
+  <span class="kw">double</span> discount = <span class="num">0.15</span>;
+}
+
+<span class="cmt">// Polymorphism: override behaviour</span>
+<span class="kw">class</span> <span class="cls">ExpressOrder</span> <span class="kw">extends</span> <span class="cls">Order</span> {
+  <span class="op">@Override</span> <span class="kw">public void</span> <span class="fn">confirm</span>() {
+    <span class="kw">super</span>.<span class="fn">confirm</span>(); notifyWarehouse();
+  }
+}</div></div><div class="quiz"><div class="quiz-title">🧠 Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">The @Override annotation in Java is used to?</div><div class="quiz-opts" id="a5opts"><button class="qopt" onclick="checkQ('a',5,'a','c')">A. Create a new method</button><button class="qopt" onclick="checkQ('a',5,'b','c')">B. Mark a deprecated method</button><button class="qopt" onclick="checkQ('a',5,'c','c')">C. Signal the compiler you're intentionally overriding a superclass method ✓</button><button class="qopt" onclick="checkQ('a',5,'d','c')">D. Prevent method from being overridden</button></div><div class="qfb" id="a5fb"></div><button class="qnext" id="a5next" onclick="switchCh(6)">Next: Exceptions →</button></div></div>
+      <div class="age-block" data-for="seniors"><div class="panel p-blue"><span class="plabel pl-blue">OOP — Like a House Blueprint 🏠</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble" style="font-size:15px;line-height:1.7">An architect makes ONE blueprint for a house. From that one blueprint, you can build many different houses. In Java, a <strong>Class</strong> is the blueprint. Each actual house is an <strong>Object</strong>!</div></div></div><div class="quiz"><div class="quiz-title">🌿 Gentle Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">In Java, a Class is like a blueprint and an Object is like ___</div><div class="quiz-opts" id="s5opts"><button class="qopt" onclick="checkQ('s',5,'a','b')">A. Another blueprint</button><button class="qopt" onclick="checkQ('s',5,'b','b')">B. An actual house built from the blueprint ✓</button><button class="qopt" onclick="checkQ('s',5,'c','b')">C. The architect</button><button class="qopt" onclick="checkQ('s',5,'d','b')">D. The land</button></div><div class="qfb" id="s5fb"></div><button class="qnext" id="s5next" onclick="switchCh(6)">Next: Errors! →</button></div></div>
+      </div><!-- end ch5 -->
+
+      <!-- CH6-8 brief age stubs -->
+      <div class="lesson" id="ch6"><div class="age-block" data-for="kids"><div class="panel p-pink"><span class="plabel pl-red">Errors — When Robo Gets Confused! 🤯</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar" style="border-color:var(--red)">🐛</div><div class="an">Bug</div></div><div class="bubble" style="background:var(--red-light);border-color:var(--red);box-shadow:3px 3px 0 var(--red)">Hehe! I sneak into programs and make them crash! But you can CATCH me with try-catch! 🛡️</div></div><div class="codeblock" style="margin-top:10px"><span class="kw">try</span> {
+  <span class="kw">int</span> x = <span class="num">10</span> / <span class="num">0</span>; <span class="cmt">// 😱 Can't divide by zero!</span>
+} <span class="kw">catch</span>(<span class="cls">Exception</span> e) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Oops! Fixed it! ✅"</span>);
+}</div></div><div class="quiz"><div class="quiz-title">🦁 Leo's Puzzle! <span class="quiz-xp">+100 XP ⭐</span></div><div class="quiz-q">What does a try-catch block do?</div><div class="quiz-opts" id="k6opts"><button class="qopt" onclick="checkQ('k',6,'a','b')">A. Makes the program faster ⚡</button><button class="qopt" onclick="checkQ('k',6,'b','b')">B. Catches errors so the program doesn't crash ✓ 🛡️</button><button class="qopt" onclick="checkQ('k',6,'c','b')">C. Deletes the bug 🐛</button><button class="qopt" onclick="checkQ('k',6,'d','b')">D. Makes coffee ☕</button></div><div class="qfb" id="k6fb"></div><button class="qnext" id="k6next" onclick="switchCh(7)">Next: Lists! →</button></div></div>
+      <div class="age-block" data-for="tweens"><div class="panel p-code"><span class="plabel pl-red">Exceptions — Game Crash Prevention 🎮</span><div class="codeblock"><span class="cmt">// Load a save file — might fail!</span>
+<span class="kw">try</span> {
+  loadSaveFile(<span class="str">"save01.dat"</span>);
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Save loaded! ✅"</span>);
+} <span class="kw">catch</span>(<span class="cls">FileNotFoundException</span> e) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"No save file found! Starting fresh."</span>);
+} <span class="kw">finally</span> {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Game ready! 🎮"</span>);
+}</div></div><div class="quiz"><div class="quiz-title">🎮 Mission Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">What does the <code>finally</code> block do?</div><div class="quiz-opts" id="t6opts"><button class="qopt" onclick="checkQ('t',6,'a','c')">A. Only runs if there's no error</button><button class="qopt" onclick="checkQ('t',6,'b','c')">B. Only runs if there IS an error</button><button class="qopt" onclick="checkQ('t',6,'c','c')">C. Always runs, no matter what ✓</button><button class="qopt" onclick="checkQ('t',6,'d','c')">D. Closes the game</button></div><div class="qfb" id="t6fb"></div><button class="qnext" id="t6next" onclick="switchCh(7)">Next: Collections →</button></div></div>
+      <div class="age-block" data-for="teens"><div class="panel p-code"><span class="plabel pl-red">Exception Handling — Best Practices</span><div class="codeblock"><span class="cmt">// Catch specific exceptions, not generic Exception</span>
+<span class="kw">try</span> {
+  <span class="kw">int</span> age = <span class="cls">Integer</span>.<span class="fn">parseInt</span>(input);
+} <span class="kw">catch</span>(<span class="cls">NumberFormatException</span> e) {
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Enter a valid number!"</span>);
+}
+
+<span class="cmt">// Custom exception</span>
+<span class="kw">class</span> <span class="cls">InsufficientFundsException</span> <span class="kw">extends</span> <span class="cls">RuntimeException</span> {
+  <span class="kw">public</span> <span class="cls">InsufficientFundsException</span>(<span class="cls">String</span> msg) {
+    <span class="kw">super</span>(msg);
+  }
+}
+<span class="cmt">// Throw it:</span>
+<span class="kw">throw new</span> <span class="cls">InsufficientFundsException</span>(<span class="str">"Balance too low!"</span>);</div></div><div class="quiz"><div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">Custom exceptions should extend which class for unchecked exceptions?</div><div class="quiz-opts" id="n6opts"><button class="qopt" onclick="checkQ('n',6,'a','b')">A. Exception</button><button class="qopt" onclick="checkQ('n',6,'b','b')">B. RuntimeException ✓</button><button class="qopt" onclick="checkQ('n',6,'c','b')">C. Error</button><button class="qopt" onclick="checkQ('n',6,'d','b')">D. Throwable</button></div><div class="qfb" id="n6fb"></div><button class="qnext" id="n6next" onclick="switchCh(7)">Next: Collections →</button></div></div>
+      <div class="age-block" data-for="adults"><div class="panel p-code"><span class="plabel pl-blue">Exception Handling — Production Grade</span><div class="codeblock"><span class="cmt">// Use try-with-resources for AutoCloseable</span>
+<span class="kw">try</span>(<span class="cls">Connection</span> conn = <span class="fn">getConnection</span>()) {
+  <span class="cmt">// conn auto-closed after block</span>
+} <span class="kw">catch</span>(<span class="cls">SQLException</span> e) {
+  log.<span class="fn">error</span>(<span class="str">"DB error: {}"</span>, e.<span class="fn">getMessage</span>());
+  <span class="kw">throw new</span> <span class="cls">ServiceException</span>(<span class="str">"DB failure"</span>, e);
+}
+
+<span class="cmt">// Checked vs Unchecked</span>
+<span class="cmt">// Checked: IOException, SQLException — must handle/declare</span>
+<span class="cmt">// Unchecked: RuntimeException — optional handling</span>
+
+<span class="cmt">// Global handler in Spring Boot</span>
+<span class="op">@RestControllerAdvice</span>
+<span class="kw">class</span> <span class="cls">GlobalExceptionHandler</span> {
+  <span class="op">@ExceptionHandler</span>(<span class="cls">ResourceNotFoundException</span>.<span class="kw">class</span>)
+  <span class="kw">public</span> <span class="cls">ResponseEntity</span>&lt;?&gt; <span class="fn">handleNotFound</span>(<span class="cls">Exception</span> e) {
+    <span class="kw">return</span> <span class="cls">ResponseEntity</span>.<span class="fn">notFound</span>().<span class="fn">build</span>();
+  }
+}</div></div><div class="quiz"><div class="quiz-title">🧠 Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">What is the main benefit of try-with-resources?</div><div class="quiz-opts" id="a6opts"><button class="qopt" onclick="checkQ('a',6,'a','b')">A. Faster execution</button><button class="qopt" onclick="checkQ('a',6,'b','b')">B. Automatic resource closure — prevents memory/connection leaks ✓</button><button class="qopt" onclick="checkQ('a',6,'c','b')">C. Catches all exceptions automatically</button><button class="qopt" onclick="checkQ('a',6,'d','b')">D. Allows multiple catch blocks</button></div><div class="qfb" id="a6fb"></div><button class="qnext" id="a6next" onclick="switchCh(7)">Next: Collections →</button></div></div>
+      <div class="age-block" data-for="seniors"><div class="panel p-yellow"><span class="plabel" style="background:var(--yellow-dark)">Errors — Like a Safety Net 🎪</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble" style="font-size:15px;line-height:1.7">Imagine a circus acrobat with a safety net below. Even if they fall (error), the net catches them and they are safe. <strong>Try-catch</strong> is Java's safety net!</div></div><div class="codeblock" style="margin-top:10px"><span class="kw">try</span> {
+  <span class="cmt">// Try something that might fail</span>
+  <span class="kw">int</span> result = <span class="num">10</span> / <span class="num">0</span>;
+} <span class="kw">catch</span>(<span class="cls">Exception</span> e) {
+  <span class="cmt">// Safety net catches the error</span>
+  <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Something went wrong, but I'm okay! ✅"</span>);
+}</div></div><div class="quiz"><div class="quiz-title">🌿 Gentle Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">Using the circus analogy, what is the "safety net" in Java called?</div><div class="quiz-opts" id="s6opts"><button class="qopt" onclick="checkQ('s',6,'a','b')">A. if-else block</button><button class="qopt" onclick="checkQ('s',6,'b','b')">B. try-catch block ✓</button><button class="qopt" onclick="checkQ('s',6,'c','b')">C. for loop</button><button class="qopt" onclick="checkQ('s',6,'d','b')">D. variable</button></div><div class="qfb" id="s6fb"></div><button class="qnext" id="s6next" onclick="switchCh(7)">Next: Lists & Maps 🗂 →</button></div></div>
+      </div><!-- end ch6 -->
+
+      <!-- CH7 -->
+      <div class="lesson" id="ch7"><div class="age-block" data-for="kids"><div class="panel p-pink"><span class="plabel pl-pink">Lists — A Collection of Toys! 🧸🧸🧸</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar" style="border-color:var(--pink)">🦁</div><div class="an">Leo</div></div><div class="bubble bkids">An ArrayList is like a toy box that can hold MANY toys! You can add toys, remove toys, and find any toy by its number!</div></div><div class="codeblock" style="margin-top:10px"><span class="cls">ArrayList</span>&lt;<span class="cls">String</span>&gt; toys = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+toys.<span class="fn">add</span>(<span class="str">"🧸 Teddy"</span>);
+toys.<span class="fn">add</span>(<span class="str">"🚂 Train"</span>);
+toys.<span class="fn">add</span>(<span class="str">"🪀 Yoyo"</span>);
+<span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(toys.<span class="fn">get</span>(<span class="num">0</span>)); <span class="cmt">// 🧸 Teddy</span></div></div><div class="quiz"><div class="quiz-title">🦁 Leo's Puzzle! <span class="quiz-xp">+100 XP ⭐</span></div><div class="quiz-q">If your toy box has Teddy(0), Train(1), Yoyo(2) — what does <code>toys.get(1)</code> give you?</div><div class="quiz-opts" id="k7opts"><button class="qopt" onclick="checkQ('k',7,'a','b')">A. 🧸 Teddy</button><button class="qopt" onclick="checkQ('k',7,'b','b')">B. 🚂 Train ✓</button><button class="qopt" onclick="checkQ('k',7,'c','b')">C. 🪀 Yoyo</button><button class="qopt" onclick="checkQ('k',7,'d','b')">D. All the toys</button></div><div class="qfb" id="k7fb"></div><button class="qnext" id="k7next" onclick="switchCh(8)">Final Chapter! ⚡ →</button></div></div>
+      <div class="age-block" data-for="tweens"><div class="panel p-code"><span class="plabel pl-purple">Collections — Game Inventory System 🎮</span><div class="codeblock"><span class="cmt">// Inventory = ordered list (ArrayList)</span>
+<span class="cls">ArrayList</span>&lt;<span class="cls">String</span>&gt; inventory = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+inventory.<span class="fn">add</span>(<span class="str">"Sword"</span>);
+inventory.<span class="fn">add</span>(<span class="str">"Shield"</span>);
+inventory.<span class="fn">remove</span>(<span class="str">"Sword"</span>); <span class="cmt">// used it!</span>
+
+<span class="cmt">// Achievements = unique set (HashSet)</span>
+<span class="cls">HashSet</span>&lt;<span class="cls">String</span>&gt; badges = <span class="kw">new</span> <span class="cls">HashSet</span>&lt;&gt;();
+badges.<span class="fn">add</span>(<span class="str">"First Kill"</span>);
+badges.<span class="fn">add</span>(<span class="str">"First Kill"</span>); <span class="cmt">// ignored! no dupe</span>
+
+<span class="cmt">// Stats = key-value (HashMap)</span>
+<span class="cls">HashMap</span>&lt;<span class="cls">String</span>,<span class="cls">Integer</span>&gt; stats = <span class="kw">new</span> <span class="cls">HashMap</span>&lt;&gt;();
+stats.<span class="fn">put</span>(<span class="str">"kills"</span>, <span class="num">42</span>);
+stats.<span class="fn">put</span>(<span class="str">"deaths"</span>, <span class="num">7</span>);</div></div><div class="quiz"><div class="quiz-title">🎮 Mission Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">You want to store unique achievements (no duplicate badges). Which collection?</div><div class="quiz-opts" id="t7opts"><button class="qopt" onclick="checkQ('t',7,'a','b')">A. ArrayList</button><button class="qopt" onclick="checkQ('t',7,'b','b')">B. HashSet ✓</button><button class="qopt" onclick="checkQ('t',7,'c','b')">C. HashMap</button><button class="qopt" onclick="checkQ('t',7,'d','b')">D. int[]</button></div><div class="qfb" id="t7fb"></div><button class="qnext" id="t7next" onclick="switchCh(8)">Final Chapter! →</button></div></div>
+      <div class="age-block" data-for="teens"><div class="panel p-code"><span class="plabel pl-purple">Collections Framework</span><div class="codeblock"><span class="kw">import</span> java.util.*;
+
+<span class="cmt">// List — ordered, duplicates ok</span>
+<span class="cls">List</span>&lt;<span class="cls">String</span>&gt; names = <span class="kw">new</span> <span class="cls">ArrayList</span>&lt;&gt;();
+
+<span class="cmt">// Set — unordered, NO duplicates</span>
+<span class="cls">Set</span>&lt;<span class="cls">String</span>&gt; tags = <span class="kw">new</span> <span class="cls">HashSet</span>&lt;&gt;();
+
+<span class="cmt">// Map — key→value pairs</span>
+<span class="cls">Map</span>&lt;<span class="cls">String</span>,<span class="cls">Integer</span>&gt; score = <span class="kw">new</span> <span class="cls">HashMap</span>&lt;&gt;();
+score.<span class="fn">put</span>(<span class="str">"Alice"</span>, <span class="num">92</span>);
+score.<span class="fn">putIfAbsent</span>(<span class="str">"Bob"</span>, <span class="num">85</span>); <span class="cmt">// safe add</span>
+score.<span class="fn">getOrDefault</span>(<span class="str">"Zara"</span>, <span class="num">0</span>); <span class="cmt">// fallback</span>
+
+<span class="cmt">// Sort a list</span>
+<span class="cls">Collections</span>.<span class="fn">sort</span>(names);
+names.<span class="fn">sort</span>(<span class="cls">Comparator</span>.<span class="fn">naturalOrder</span>());</div></div><div class="quiz"><div class="quiz-title">🧠 Quick Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">Which Map method safely adds a value only if the key doesn't already exist?</div><div class="quiz-opts" id="n7opts"><button class="qopt" onclick="checkQ('n',7,'a','b')">A. put()</button><button class="qopt" onclick="checkQ('n',7,'b','b')">B. putIfAbsent() ✓</button><button class="qopt" onclick="checkQ('n',7,'c','b')">C. add()</button><button class="qopt" onclick="checkQ('n',7,'d','b')">D. set()</button></div><div class="qfb" id="n7fb"></div><button class="qnext" id="n7next" onclick="switchCh(8)">Final Chapter! →</button></div></div>
+      <div class="age-block" data-for="adults"><div class="panel p-code"><span class="plabel pl-blue">Collections — Choosing the Right Structure</span><div class="codeblock"><span class="cmt">// ArrayList vs LinkedList</span>
+<span class="cmt">// ArrayList: O(1) get, O(n) insert-mid — use for reads</span>
+<span class="cmt">// LinkedList: O(1) insert-front — use as queue/deque</span>
+
+<span class="cmt">// HashMap vs TreeMap vs LinkedHashMap</span>
+<span class="cmt">// HashMap: O(1) avg — general use</span>
+<span class="cmt">// TreeMap: O(log n) — sorted by key</span>
+<span class="cmt">// LinkedHashMap: insertion order preserved</span>
+
+<span class="cmt">// Thread-safe alternatives</span>
+<span class="cls">Map</span>&lt;<span class="cls">String</span>,<span class="cls">Integer</span>&gt; safeMap =
+  <span class="kw">new</span> <span class="cls">ConcurrentHashMap</span>&lt;&gt;();
+
+<span class="cmt">// Immutable collections (Java 9+)</span>
+<span class="cls">List</span>&lt;<span class="cls">String</span>&gt; immutable = <span class="cls">List</span>.<span class="fn">of</span>(<span class="str">"a"</span>,<span class="str">"b"</span>,<span class="str">"c"</span>);
+<span class="cls">Map</span>&lt;<span class="cls">String</span>,<span class="cls">Integer</span>&gt; immMap = <span class="cls">Map</span>.<span class="fn">of</span>(<span class="str">"x"</span>,<span class="num">1</span>,<span class="str">"y"</span>,<span class="num">2</span>);</div></div><div class="quiz"><div class="quiz-title">🧠 Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">For a multi-threaded environment, which Map implementation is preferred?</div><div class="quiz-opts" id="a7opts"><button class="qopt" onclick="checkQ('a',7,'a','c')">A. HashMap</button><button class="qopt" onclick="checkQ('a',7,'b','c')">B. TreeMap</button><button class="qopt" onclick="checkQ('a',7,'c','c')">C. ConcurrentHashMap ✓</button><button class="qopt" onclick="checkQ('a',7,'d','c')">D. LinkedHashMap</button></div><div class="qfb" id="a7fb"></div><button class="qnext" id="a7next" onclick="switchCh(8)">Final Chapter! →</button></div></div>
+      <div class="age-block" data-for="seniors"><div class="panel p-yellow"><span class="plabel" style="background:var(--yellow-dark)">Collections — Like a Phone Book 📒</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble" style="font-size:15px;line-height:1.7">A phone book holds many names and numbers. You look up a name (the key) and find their number (the value). That is exactly what a HashMap does in Java!</div></div><div class="codeblock" style="margin-top:10px"><span class="cls">HashMap</span>&lt;<span class="cls">String</span>,<span class="cls">String</span>&gt; phoneBook =
+  <span class="kw">new</span> <span class="cls">HashMap</span>&lt;&gt;();
+
+phoneBook.<span class="fn">put</span>(<span class="str">"Priya"</span>, <span class="str">"9876543210"</span>);
+phoneBook.<span class="fn">put</span>(<span class="str">"Mohan"</span>, <span class="str">"9123456789"</span>);
+
+<span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(phoneBook.<span class="fn">get</span>(<span class="str">"Priya"</span>));
+<span class="cmt">// Shows: 9876543210</span></div></div><div class="quiz"><div class="quiz-title">🌿 Gentle Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">In a HashMap that stores phone numbers, what is the "name" called?</div><div class="quiz-opts" id="s7opts"><button class="qopt" onclick="checkQ('s',7,'a','b')">A. Value</button><button class="qopt" onclick="checkQ('s',7,'b','b')">B. Key ✓</button><button class="qopt" onclick="checkQ('s',7,'c','b')">C. Index</button><button class="qopt" onclick="checkQ('s',7,'d','b')">D. String</button></div><div class="qfb" id="s7fb"></div><button class="qnext" id="s7next" onclick="switchCh(8)">Final Chapter! ⚡ →</button></div></div>
+      </div><!-- end ch7 -->
+
+      <!-- CH8 -->
+      <div class="lesson" id="ch8">
+        <div class="age-block" data-for="kids"><div class="panel p-pink p-hero"><div style="font-family:var(--font-kids);font-size:40px;color:var(--pink)">You're a SUPER CODER now! 🦸‍♂️⭐</div><div style="font-size:60px;margin:12px 0">🏆🎉🌟</div><div class="kids-fun-box" style="max-width:400px;margin-top:8px">You learned what Java is, how to store things, how to make decisions, how to repeat things, how to build objects, how to catch errors, and how to store lists! WOW!</div></div><div class="quiz"><div class="quiz-title">🦁 FINAL Challenge! <span class="quiz-xp">+100 XP ⭐⭐⭐</span></div><div class="quiz-q">Which of these is a REAL thing you can build with Java when you grow up?</div><div class="quiz-opts" id="k8opts"><button class="qopt" onclick="checkQ('k',8,'a','c')">A. A yummy birthday cake 🎂</button><button class="qopt" onclick="checkQ('k',8,'b','c')">B. A sand castle 🏰</button><button class="qopt" onclick="checkQ('k',8,'c','c')">C. A mobile game app on Android ✓ 📱🎮</button><button class="qopt" onclick="checkQ('k',8,'d','c')">D. A paper airplane ✈️</button></div><div class="qfb" id="k8fb"></div><button class="qnext" id="k8next" onclick="showCompletion()">🎓 I finished! Woohoo! →</button></div></div>
+        <div class="age-block" data-for="tweens"><div class="panel p-dark p-hero"><div style="font-family:var(--font-display);font-size:42px;color:var(--orange);letter-spacing:2px">PRO UNLOCKED! ⚡🎮</div><div style="font-size:60px;margin:10px 0">🏆🚀</div><div style="color:#ccd;font-size:14px;max-width:420px;font-weight:600">You've learned enough to start building real apps! Streams and Lambdas are next — they make code 10x shorter and cooler.</div></div><div class="quiz"><div class="quiz-title">🎮 FINAL Boss! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">What does <code>list.stream().filter(x -> x > 10)</code> do?</div><div class="quiz-opts" id="t8opts"><button class="qopt" onclick="checkQ('t',8,'a','c')">A. Deletes all items over 10</button><button class="qopt" onclick="checkQ('t',8,'b','c')">B. Returns the first item over 10</button><button class="qopt" onclick="checkQ('t',8,'c','c')">C. Returns a new stream of only items greater than 10 ✓</button><button class="qopt" onclick="checkQ('t',8,'d','c')">D. Sorts the list</button></div><div class="qfb" id="t8fb"></div><button class="qnext" id="t8next" onclick="showCompletion()">🎓 Course Complete! →</button></div></div>
+        <div class="age-block" data-for="teens"><div class="panel p-code"><span class="plabel pl-purple">Java 8+ — Lambdas & Streams</span><div class="codeblock"><span class="cmt">// Lambda — anonymous function</span>
+<span class="cls">Runnable</span> r = () -> <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(<span class="str">"Hello!"</span>);
+
+<span class="cmt">// Stream pipeline</span>
+<span class="cls">List</span>&lt;<span class="cls">Integer</span>&gt; nums = <span class="cls">List</span>.<span class="fn">of</span>(<span class="num">1</span>,<span class="num">2</span>,<span class="num">3</span>,<span class="num">4</span>,<span class="num">5</span>,<span class="num">6</span>);
+<span class="kw">int</span> sumOfEvens = nums.<span class="fn">stream</span>()
+  .<span class="fn">filter</span>(n -> n % <span class="num">2</span> == <span class="num">0</span>)
+  .<span class="fn">mapToInt</span>(<span class="cls">Integer</span>::intValue)
+  .<span class="fn">sum</span>();  <span class="cmt">// 2+4+6 = 12</span>
+
+<span class="cmt">// Optional — avoid NPE</span>
+<span class="cls">Optional</span>&lt;<span class="cls">String</span>&gt; name = <span class="cls">Optional</span>.<span class="fn">ofNullable</span>(getName());
+name.<span class="fn">ifPresent</span>(n -> <span class="cls">System</span>.<span class="vr">out</span>.<span class="fn">println</span>(n));</div></div><div class="quiz"><div class="quiz-title">🧠 FINAL Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">What does <code>Optional.ofNullable()</code> help prevent?</div><div class="quiz-opts" id="n8opts"><button class="qopt" onclick="checkQ('n',8,'a','b')">A. Memory leaks</button><button class="qopt" onclick="checkQ('n',8,'b','b')">B. NullPointerException ✓</button><button class="qopt" onclick="checkQ('n',8,'c','b')">C. Infinite loops</button><button class="qopt" onclick="checkQ('n',8,'d','b')">D. Stack overflow</button></div><div class="qfb" id="n8fb"></div><button class="qnext" id="n8next" onclick="showCompletion()">🎓 Complete! →</button></div></div>
+        <div class="age-block" data-for="adults"><div class="panel p-code"><span class="plabel pl-blue">Advanced Java — Production Patterns</span><div class="codeblock"><span class="cmt">// Streams — functional data processing</span>
+<span class="cls">List</span>&lt;<span class="cls">Order</span>&gt; orders = getOrders();
+<span class="cls">Map</span>&lt;<span class="cls">String</span>,<span class="cls">Double</span>&gt; revByRegion = orders.<span class="fn">stream</span>()
+  .<span class="fn">filter</span>(<span class="cls">Order</span>::isPaid)
+  .<span class="fn">collect</span>(<span class="cls">Collectors</span>.<span class="fn">groupingBy</span>(
+    <span class="cls">Order</span>::getRegion,
+    <span class="cls">Collectors</span>.<span class="fn">summingDouble</span>(<span class="cls">Order</span>::getAmount)));
+
+<span class="cmt">// CompletableFuture — async</span>
+<span class="cls">CompletableFuture</span>.<span class="fn">supplyAsync</span>(() -> fetchUser(id))
+  .<span class="fn">thenApply</span>(user -> buildProfile(user))
+  .<span class="fn">thenAccept</span>(profile -> sendEmail(profile));
+
+<span class="cmt">// Record class (Java 16+) — immutable data</span>
+<span class="kw">record</span> <span class="cls">ProductDTO</span>(<span class="cls">String</span> name, <span class="kw">double</span> price) {}</div></div><div class="quiz"><div class="quiz-title">🧠 FINAL Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">Java 16+ record classes are primarily designed for?</div><div class="quiz-opts" id="a8opts"><button class="qopt" onclick="checkQ('a',8,'a','c')">A. Database access</button><button class="qopt" onclick="checkQ('a',8,'b','c')">B. Multi-threading</button><button class="qopt" onclick="checkQ('a',8,'c','c')">C. Immutable data carriers with auto-generated boilerplate ✓</button><button class="qopt" onclick="checkQ('a',8,'d','c')">D. Exception handling</button></div><div class="qfb" id="a8fb"></div><button class="qnext" id="a8next" onclick="showCompletion()">🎓 Complete! →</button></div></div>
+        <div class="age-block" data-for="seniors"><div class="panel p-yellow"><span class="plabel" style="background:var(--yellow-dark)">You've Come So Far! 🌿 Your Next Steps</span><div class="char" style="margin-top:8px"><div class="aw"><div class="avatar">🦆</div><div class="an">Duke</div></div><div class="bubble" style="font-size:15px;line-height:1.7">You have learned what Java is, how to store information in variables, how to choose data types, how to make decisions, how to repeat actions, how to build objects, how to handle errors, and how to use collections. That is extraordinary!</div></div><div class="roadmap" style="margin-top:14px">
+          <div class="rs"><div class="rdot" style="background:var(--green-light);border-color:var(--green-dark);color:var(--green-dark)">✓</div><div class="rtext"><strong style="color:var(--green-dark)">Basics — Done! ✅</strong>Variables, Types, Decisions, Loops, OOP, Errors, Collections</div></div>
+          <div class="rs"><div class="rdot" style="background:var(--blue-light);border-color:var(--blue);color:var(--blue)">2</div><div class="rtext"><strong style="color:var(--blue)">Practice at your pace</strong>Try writing small programs — a greeting card, a simple calculator</div></div>
+          <div class="rs"><div class="rdot" style="background:#fff8ee;border-color:var(--orange);color:var(--orange)">3</div><div class="rtext"><strong style="color:var(--orange)">Explore BlueJ or Greenfoot</strong>Beginner-friendly Java tools made for gentle learners</div></div>
+        </div></div><div class="quiz"><div class="quiz-title">🌿 FINAL Gentle Check! <span class="quiz-xp">+100 XP</span></div><div class="quiz-q">Overall — which best describes what you've learned in this course?</div><div class="quiz-opts" id="s8opts"><button class="qopt" onclick="checkQ('s',8,'a','c')">A. How to repair computers</button><button class="qopt" onclick="checkQ('s',8,'b','c')">B. How to browse the internet</button><button class="qopt" onclick="checkQ('s',8,'c','c')">C. How to write step-by-step instructions for computers in Java ✓</button><button class="qopt" onclick="checkQ('s',8,'d','c')">D. How to use Microsoft Word</button></div><div class="qfb" id="s8fb"></div><button class="qnext" id="s8next" onclick="showCompletion()">🎓 Finish the Course! →</button></div></div>
+      </div><!-- end ch8 -->
+
+    </div><!-- end lesson-content -->
+  </div>
+</section>
+
+<!-- COMPLETION -->
+<section id="completion">
+  <div class="comp-inner">
+    <div style="font-size:72px;margin-bottom:14px">🏆</div>
+    <div class="comp-title">YOU DID IT!</div>
+    <p class="comp-sub" id="comp-msg">Congratulations on completing the Java for Everyone course!</p>
+    <div class="cert">
+      <div class="cl">🎓 Certificate of Completion</div>
+      <div class="cn">Java for Everyone</div>
+      <div class="ct" id="comp-cert-text">Successfully completed all 9 chapters.</div>
+      <div style="margin-top:10px;font-size:20px">⭐⭐⭐⭐⭐</div>
+    </div>
+    <div class="ns-btns">
+      <button class="ns-btn" onclick="window.open('https://www.oracle.com/java/technologies/downloads/','_blank')">📥 Download Java</button>
+      <button class="ns-btn" onclick="window.open('https://exercism.org/tracks/java','_blank')">💪 Practice Problems</button>
+      <button class="ns-btn" onclick="restartCourse()">🔄 Restart</button>
+    </div>
+  </div>
+</section>
+
+<!-- TIPS -->
+<section id="tips">
+  <div class="sec-inner">
+    <span class="sec-tag">Bonus</span>
+    <h2 class="sec-title">Learning Tips 💡</h2>
+    <p class="sec-sub">No matter your age, these habits make learning Java faster and more fun!</p>
+    <div class="tips-grid">
+      <div class="tip reveal"><span class="tip-icon">✍️</span><div class="tip-title">Write code by hand first</div><div class="tip-text">Write Java on paper before typing. It forces your brain to understand every word — not just copy-paste!</div></div>
+      <div class="tip reveal"><span class="tip-icon">🔁</span><div class="tip-title">10 minutes daily beats 2 hours weekly</div><div class="tip-text">Consistency is the real superpower in learning programming. Small daily sessions beat marathon sessions.</div></div>
+      <div class="tip reveal"><span class="tip-icon">💥</span><div class="tip-title">Errors are teachers</div><div class="tip-text">Every red error message is the computer teaching you something. Read them carefully — they tell you exactly what went wrong!</div></div>
+      <div class="tip reveal"><span class="tip-icon">🏗️</span><div class="tip-title">Build something you love</div><div class="tip-text">Make a quiz, a calculator, a name generator. Building something real beats reading examples 10 to 1.</div></div>
+      <div class="tip reveal"><span class="tip-icon">🤝</span><div class="tip-title">Explain it out loud</div><div class="tip-text">If you can explain a concept to someone else, you truly understand it. Teach what you learn!</div></div>
+      <div class="tip reveal"><span class="tip-icon">🎯</span><div class="tip-title">One thing at a time</div><div class="tip-text">Don't try to learn everything at once. Master one concept, then move to the next. Java is a marathon!</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Made with <span>☕ love</span> for learners of every age, everywhere 🌍</p>
+  <p style="margin-top:6px">Java for Everyone · Open · Free · No experience needed</p>
+</footer>
+
+<script>
+// ===== STATE =====
+const S = { age: null, xp: 0, done: {}, ch: 0, total: 9 };
+
+// ===== PERSONA CONFIG =====
+const personas = {
+  kids: {
+    emoji: '🦁',
+    title: 'Welcome, Little Coder! 🎉',
+    desc: 'We will use fun stories, cute animals, and big colourful pictures to teach you Java. Every word will be simple and every example will be fun. Get ready for an adventure!',
+    bg: 'var(--pink-light)', border: 'var(--pink)', color: '#7a1040',
+    okMsg: (q) => '⭐ Superstar! ' + q,
+    badMsg: (q) => '😊 Almost! ' + q
+  },
+  tweens: {
+    emoji: '🎮',
+    title: "Gamer Mode: ON! Let's Code!",
+    desc: "We'll treat every lesson like a game mission. You'll earn XP, unlock chapters, and build skills to create real apps and games. Your first game isn't far away!",
+    bg: '#fff3e8', border: 'var(--orange)', color: '#5a2a00',
+    okMsg: (q) => '✅ Mission success! ' + q,
+    badMsg: (q) => '🔄 Try again next time! ' + q
+  },
+  teens: {
+    emoji: '⚡',
+    title: 'Developer Mode Activated.',
+    desc: "No hand-holding, no baby steps. Real code, real syntax, real concepts — the same stuff professionals use. We'll explain the WHY, not just the HOW.",
+    bg: '#1e2030', border: 'var(--blue)', color: '#90d0f0',
+    titleColor: '#90d0f0', descColor: '#8899aa',
+    okMsg: (q) => '✅ Correct. ' + q,
+    badMsg: (q) => '❌ Incorrect. ' + q
+  },
+  adults: {
+    emoji: '💼',
+    title: 'Professional Java Track.',
+    desc: "Focused, practical, career-oriented. We'll cover exactly what you need to get productive fast — with context on real-world usage, best practices, and industry patterns.",
+    bg: '#f8f5ff', border: 'var(--purple)', color: '#3a1060',
+    okMsg: (q) => '✅ Correct. ' + q,
+    badMsg: (q) => '❌ ' + q
+  },
+  seniors: {
+    emoji: '🌿',
+    title: 'Welcome! Take it at your own pace.',
+    desc: "There is no hurry here. Each lesson uses everyday comparisons — recipes, knitting, phone books, traffic lights — things you already know. You will be surprised how much sense it makes!",
+    bg: '#fffbe0', border: 'var(--yellow-dark)', color: '#5a3e00',
+    okMsg: (q) => '🌟 Very good! ' + q,
+    badMsg: (q) => '🌿 No worries! ' + q
+  }
+};
+
+const quizAnswers = {
+  k:{0:{c:'b',ok:"Java helps you give instructions to computers — just like telling a robot what to do!",bad:"Think of Java as instructions you write so a robot (the computer) knows exactly what to do!"},1:{c:'b',ok:"The magic box holds the number 100! The label is 'score', the value inside is 100.",bad:"When you write score = 100, you're putting 100 INSIDE the box. The label is 'score'."},2:{c:'b',ok:"String is the word box! It holds text like names and sentences.",bad:"For words and names, always use String — it's the text/word type in Java!"},3:{c:'b',ok:"3 is NOT equal to 5, so the condition is false and the else part runs — Keep trying!",bad:"The if condition (stars == 5) is false when stars is 3, so we go to else."},4:{c:'b',ok:"i starts at 1, runs while i <= 3, so: 1, 2, 3. That's 3 times!",bad:"i goes 1, then 2, then 3 — when i would be 4, the loop stops. So it runs 3 times!"},5:{c:'b',ok:"An Object is the actual thing built from the blueprint (Class). The LEGO model!",bad:"The Class is the instruction book. The Object is the actual model you build from it."},6:{c:'b',ok:"try-catch catches errors so your program doesn't crash — it's a safety net!",bad:"try-catch protects your program. If something goes wrong in try, catch handles it safely."},7:{c:'b',ok:"toys.get(1) gives index 1 which is the second item — Train! (Counting starts at 0)",bad:"Remember, counting starts at 0: Teddy is 0, Train is 1, Yoyo is 2. So get(1) = Train."},8:{c:'c',ok:"Yes! Java is used to build Android apps and games — your future apps are waiting!",bad:"Java is most famous for building mobile apps (Android) and games — like Minecraft!"}},
+  t:{0:{c:'b',ok:"The JVM (Java Virtual Machine) runs Java bytecode on any device — that's Java's superpower!",bad:"JVM = Java Virtual Machine. It takes compiled bytecode and runs it on any operating system."},1:{c:'c',ok:"100 - 30 = 70, then 70 + 10 = 80. Correct!",bad:"health starts 100. -= 30 makes it 70. Then += 10 makes it 80."},2:{c:'c',ok:"int only holds whole numbers. 9.99 is a decimal so it's a compile error! Use double.",bad:"int cannot store decimals. You need double for 9.99. Java gives a compile error if you try."},3:{c:'b',ok:"&& means AND — both conditions must be true for the whole expression to be true!",bad:"&& is AND. Both sides must be true. || is OR (either one). ! is NOT (reverse)."},4:{c:'c',ok:"lives starts at 3, decrements each loop: prints 3, 2, 1. Last output before GAME OVER is lives: 1.",bad:"The loop runs while lives > 0. So it prints lives: 3, then 2, then 1. After that lives=0 and game over."},5:{c:'b',ok:"new Hero() creates an OBJECT — an instance of the Hero class!",bad:"When you write new Hero(), you are creating an OBJECT (instance) of the Hero class."},6:{c:'c',ok:"finally always runs — whether there was an error or not. Perfect for cleanup code!",bad:"finally runs ALWAYS, no matter what. It's not optional based on error state."},7:{c:'b',ok:"HashSet stores only UNIQUE values — any duplicate add is silently ignored!",bad:"For unique items with no duplicates, use HashSet. ArrayList allows duplicates."},8:{c:'c',ok:"filter() returns a new Stream containing only items where the condition is true — items > 10.",bad:"filter() keeps elements where the predicate is true and returns them as a new Stream."}},
+  n:{0:{c:'c',ok:"Java source → javac compiles → Bytecode → JVM runs. Bytecode is the middle step!",bad:"Java compiles to Bytecode (not machine code or HTML). The JVM then runs that bytecode."},1:{c:'b',ok:"final makes a variable a constant — it cannot be reassigned after initialization!",bad:"'final' is Java's constant keyword. Unlike C/C++, Java uses final not const."},2:{c:'b',ok:"Narrowing cast truncates decimals. (int) 9.99 = 9 — the .99 is lost!",bad:"When casting double to int with (int), Java truncates (not rounds). 9.99 becomes 9."},3:{c:'a',ok:"80 >= 75 is true, so the ternary returns the first value: 'Pass'.",bad:"Ternary: condition ? valueIfTrue : valueIfFalse. Since 80>=75 is true, result = 'Pass'."},4:{c:'b',ok:"continue skips the rest of the current iteration and moves to the next one — doesn't exit the loop.",bad:"continue skips just the current iteration. break would exit the loop entirely."},5:{c:'b',ok:"private fields enforce encapsulation — external code can't directly modify them, only via public API.",bad:"Making fields private is encapsulation — it forces use of getters/setters, protecting data integrity."},6:{c:'b',ok:"RuntimeException is for unchecked exceptions — callers aren't forced to handle them with try-catch.",bad:"Custom unchecked exceptions extend RuntimeException. Checked exceptions extend Exception directly."},7:{c:'b',ok:"putIfAbsent() only inserts the value if the key doesn't already exist — a safe insert.",bad:"putIfAbsent is the safe way to add — it won't overwrite an existing value. put() always overwrites."},8:{c:'b',ok:"Optional.ofNullable() wraps a potentially null value, forcing you to check before use — preventing NPE.",bad:"Optional prevents NullPointerException by making nullability explicit and forcing safe access."}},
+  a:{0:{c:'c',ok:"JVM = Java Virtual Machine. It abstracts the OS, enabling the same bytecode to run anywhere.",bad:"The JVM provides platform independence — it runs the same bytecode on Windows, Mac, Linux, Android."},1:{c:'c',ok:"10 * 3 = 30, 30 - 5 = 25. Correct!",bad:"x = 10. x *= 3 → x = 30. x -= 5 → x = 25."},2:{c:'c',ok:"Never use float/double for money — floating point imprecision causes ₹0.01 errors. Always BigDecimal.",bad:"BigDecimal is the only safe choice for financial calculations. float/double have imprecision issues."},3:{c:'b',ok:".equals() compares string content. == compares object references and will give wrong results for Strings.",bad:"== on Strings compares memory addresses, not content. Always use .equals() for String comparison."},4:{c:'c',ok:"forEach() with lambda or method reference is the idiomatic Java 8+ style for iteration.",bad:"In modern Java, list.forEach(item -> process(item)) or list.forEach(this::process) is preferred."},5:{c:'c',ok:"@Override tells the compiler you're intentionally overriding — it catches typos in method signatures.",bad:"@Override is a compile-time signal. If the method doesn't actually override anything, the compiler errors."},6:{c:'b',ok:"try-with-resources auto-closes AutoCloseable resources (DB connections, streams) preventing leaks.",bad:"try-with-resources calls close() automatically after the block — critical for connection/stream management."},7:{c:'c',ok:"ConcurrentHashMap uses segment-level locking for thread-safe concurrent access without blocking the whole map.",bad:"ConcurrentHashMap is designed for concurrent access. HashMap is not thread-safe."},8:{c:'c',ok:"Records are immutable data carriers — auto-generate equals, hashCode, toString, and accessor methods.",bad:"Java 16+ records are for immutable DTOs/value objects with auto-generated boilerplate."}},
+  s:{0:{c:'b',ok:"Java is exactly like a recipe — step-by-step instructions the computer follows! Well done!",bad:"Think of it as a recipe book. Java lets you write instructions (the recipe) that the computer (the cook) follows exactly."},1:{c:'b',ok:"The label is 'age' and inside the jar is the number 65. Well done!",bad:"The variable name (age) is the label. The value (65) is what's inside the jar."},2:{c:'b',ok:"String is the word jar in Java — perfect for names, sentences, and any text!",bad:"For storing a name like 'Priya', you need the String type — it's the text/word jar."},3:{c:'c',ok:"When light is 'red', neither if nor else-if matches, so it goes to else and prints Stop! 🔴",bad:"If 'green' doesn't match and 'yellow' doesn't match, the else runs — which is Stop! 🔴"},4:{c:'b',ok:"A loop repeats an action many times, just like knitting the same stitch many times in a pattern!",bad:"A loop is like a repeated stitch in knitting — you write it once and tell it how many times to repeat."},5:{c:'b',ok:"An Object is the actual house built from the blueprint (the Class). Perfect!",bad:"The Class is the architect's blueprint. The Object is the actual house built from that blueprint."},6:{c:'b',ok:"try-catch is Java's safety net — it catches errors so the programme keeps running safely!",bad:"Just like the circus safety net catches a falling acrobat, try-catch catches errors in Java."},7:{c:'b',ok:"In a HashMap, the name you look up is called the Key. The phone number found is the Value!",bad:"In a key-value pair, the name you search with is the Key, and the result you find is the Value."},8:{c:'c',ok:"You have learned to write step-by-step instructions in Java. That is a wonderful achievement!",bad:"Java is all about giving computers clear, step-by-step instructions — and you have learned to do exactly that!"}}
+};
+
+// ===== PICK AGE =====
+function pickAge(age, el) {
+  S.age = age;
+  document.querySelectorAll('.age-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  const p = personas[age];
+
+  // Banner
+  const banner = document.getElementById('persona-banner');
+  const inner = document.getElementById('pb-inner');
+  document.getElementById('pb-emoji').textContent = p.emoji;
+  document.getElementById('pb-title').textContent = p.title;
+  document.getElementById('pb-desc').textContent = p.desc;
+  inner.style.background = p.bg;
+  inner.style.borderColor = p.border;
+  inner.style.color = p.titleColor || p.color;
+  document.getElementById('pb-title').style.color = p.titleColor || p.color;
+  document.getElementById('pb-desc').style.color = p.descColor || p.color;
+  banner.style.display = 'block';
+
+  // Show lessons
+  document.getElementById('no-age-msg').style.display = 'none';
+  document.getElementById('lesson-content').style.display = 'block';
+
+  // Show age blocks
+  showAgeBlocks(age);
+  switchCh(0);
+  setTimeout(() => document.getElementById('lessons').scrollIntoView({behavior:'smooth'}), 200);
+}
+
+function showAgeBlocks(age) {
+  document.querySelectorAll('.age-block').forEach(b => {
+    b.classList.toggle('visible', b.dataset.for === age);
+  });
+}
+
+// ===== SWITCH CHAPTER =====
+function switchCh(n) {
+  document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+  document.querySelectorAll('.ch-btn').forEach(b => b.classList.remove('active'));
+  const panel = document.getElementById('ch'+n);
+  const btn = document.querySelector('.ch-btn[data-ch="'+n+'"]');
+  if (panel) panel.classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (S.age) showAgeBlocks(S.age);
+  S.ch = n;
+  document.getElementById('lessons').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ===== CHECK QUIZ =====
+function checkQ(agePrefix, ch, chosen, correct) {
+  const optsId = agePrefix+ch+'opts';
+  const fbId = agePrefix+ch+'fb';
+  const nextId = agePrefix+ch+'next';
+  const opts = document.getElementById(optsId);
+  if (!opts || opts.dataset.answered) return;
+  opts.dataset.answered = '1';
+
+  opts.querySelectorAll('.qopt').forEach((btn,i) => {
+    const letter = ['a','b','c','d'][i];
+    if (letter === correct) btn.classList.add('correct');
+    else if (letter === chosen) btn.classList.add('wrong');
+    btn.style.pointerEvents = 'none';
+  });
+
+  const fb = document.getElementById(fbId);
+  const nxt = document.getElementById(nextId);
+  const isRight = chosen === correct;
+  const qData = quizAnswers[agePrefix] && quizAnswers[agePrefix][ch];
+  const p = personas[S.age];
+  const msg = qData ? (isRight ? p.okMsg(qData.ok) : p.badMsg(qData.bad)) : (isRight ? '✅ Correct!' : '❌ Not quite!');
+
+  fb.textContent = msg;
+  fb.className = 'qfb show ' + (isRight ? 'ok' : 'bad');
+  if (nxt) nxt.classList.add('show');
+
+  const key = agePrefix+ch;
+  if (!S.done[key]) {
+    S.done[key] = true;
+    S.xp += isRight ? 100 : 50;
+    updateXP();
+    const chBtn = document.querySelector('.ch-btn[data-ch="'+ch+'"]');
+    if (chBtn) chBtn.classList.add('done');
+  }
+}
+
+// ===== XP =====
+function updateXP() {
+  const pct = Math.min(100, Math.round((S.xp / (S.total * 100)) * 100));
+  document.getElementById('progress-bar').style.width = pct + '%';
+  document.getElementById('navXP').textContent = S.xp + ' XP ⚡';
+}
+
+// ===== COMPLETION =====
+const compMsgs = {
+  kids: "Amazing job, little coder! 🦁 You've learned things most grown-ups don't know yet! You are officially a SUPER CODER! 🌟",
+  tweens: "Achievement unlocked: Java Beginner! 🎮 You now have the skills to start building real apps. The coding world is yours to explore!",
+  teens: "Course complete. You've covered the core Java fundamentals that professional developers use daily. Spring Boot and real projects await.",
+  adults: "Well done. You've built a solid Java foundation — from fundamentals through modern Java 8+ features. Start building with Spring Boot next.",
+  seniors: "What a wonderful achievement! 🌿 You have shown that learning has no age limit. Be proud of yourself — this is truly impressive!"
+};
+const compCerts = {
+  kids:"Completed all 9 fun Java lessons with flying colours! ⭐",
+  tweens:"Completed all 9 Java missions and earned maximum XP! 🎮",
+  teens:"Completed Java Fundamentals through Advanced Topics.",
+  adults:"Completed Java Foundations — Professional Track.",
+  seniors:"Completed all 9 Java lessons at their own pace. 🌿"
+};
+
+function showCompletion() {
+  const el = document.getElementById('completion');
+  el.style.display = 'block';
+  document.getElementById('comp-msg').textContent = compMsgs[S.age] || compMsgs.adults;
+  document.getElementById('comp-cert-text').textContent = compCerts[S.age] || compCerts.adults;
+  el.scrollIntoView({behavior:'smooth'});
+  S.xp = Math.max(S.xp, 800); updateXP();
+}
+
+function restartCourse() {
+  S.age = null; S.xp = 0; S.done = {}; S.ch = 0;
+  document.querySelectorAll('.quiz-opts').forEach(o => o.removeAttribute('data-answered'));
+  document.querySelectorAll('.qopt').forEach(b => { b.classList.remove('correct','wrong'); b.style.pointerEvents = ''; });
+  document.querySelectorAll('.qfb').forEach(f => { f.className = 'qfb'; f.textContent = ''; });
+  document.querySelectorAll('.qnext').forEach(n => n.classList.remove('show'));
+  document.querySelectorAll('.ch-btn').forEach(b => b.classList.remove('done'));
+  document.querySelectorAll('.age-card').forEach(c => c.classList.remove('selected'));
+  document.getElementById('completion').style.display = 'none';
+  document.getElementById('no-age-msg').style.display = 'block';
+  document.getElementById('lesson-content').style.display = 'none';
+  document.getElementById('persona-banner').style.display = 'none';
+  updateXP();
+  document.getElementById('home').scrollIntoView({behavior:'smooth'});
+}
+
+// ===== SCROLL REVEAL =====
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
